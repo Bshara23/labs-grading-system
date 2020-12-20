@@ -1,0 +1,13 @@
+.Container{
+    border: 1px solid rgb(195, 211, 255);
+    cursor: pointer;
+
+}
+.Container:hover{
+    border: 1px solid rgb(195, 211, 255);
+    cursor: pointer;
+}
+
+.ContainerOnHover{
+    border: 2px solid rgb(62, 107, 231);
+}
