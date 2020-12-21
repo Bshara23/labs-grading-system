@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import "./CourseCell.css";
 
-export default function CourseCell({ courseName, teacherName, onClick }) {
+export default function CourseCell({ couseName, teacherName }) {
   const [isHovering, setIsHovering] = useState(false);
 
   const onMouseEnter = () => {
@@ -13,12 +13,15 @@ export default function CourseCell({ courseName, teacherName, onClick }) {
     setIsHovering(false);
   };
 
+  const onContainerClick = () => {
+    console.log(couseName);
+  };
   return (
 
     <Container
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onClick={onClick}
+      onClick={onContainerClick}
       className={`Container ${
         isHovering ? " shadow-lg" : "shadow "
       } p-4 mb-5 bg-white rounded `}

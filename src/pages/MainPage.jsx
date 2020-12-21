@@ -5,13 +5,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CourseCell from "../components/CourseCell";
 
-
-
 export default function MainPage() {
 
-  const btnClick = () => {
-    console.log("clicked");
-  };
+ 
 
   return (
     <>
@@ -24,6 +20,7 @@ export default function MainPage() {
               <CourseCell
                 teacherName={course.TeacherName}
                 courseName={course.CourseName}
+               
               />
             </Row>
           );
