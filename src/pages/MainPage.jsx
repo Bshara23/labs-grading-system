@@ -9,8 +9,11 @@ import CourseCell from "../components/CourseCell";
 
 export default function MainPage() {
 
-  const btnClick = () => {
-    console.log("clicked");
+  const btnClick = (teacherName,courseName) => {
+    console.log(teacherName);
+    console.log(courseName);
+
+
   };
 
   return (
@@ -24,6 +27,7 @@ export default function MainPage() {
               <CourseCell
                 teacherName={course.TeacherName}
                 courseName={course.CourseName}
+                onClick={btnClick}
               />
             </Row>
           );

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import "./CourseCell.css";
-
-export default function CourseCell({ courseName, teacherName, onClick }) {
+import "./Course.css";
+export default function CourseHomeWorkCell({ Title, Deadline, Status }) {
   const [isHovering, setIsHovering] = useState(false);
-
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const onMouseEnter = () => {
     setIsHovering(true);
   };
@@ -18,13 +18,17 @@ export default function CourseCell({ courseName, teacherName, onClick }) {
     <Container
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onClick={()=>onClick(teacherName,courseName)}
+    //   onClick={()=>onClick(teacherName,courseName)}
       className={`Container ${
         isHovering ? " shadow-lg" : "shadow "
-      } p-4 mb-5 bg-white rounded `}
+      }${
+        Status=="Submitted" ? "CourseSubmittedHomeWork" : "CourseNotSubmittedHomeWork"
+      } p-4 mb-5 rounded `}
+      
     >
-      <Row>{courseName}</Row>
-      <Row>Teacher Name: {teacherName}</Row>
+      <Row>{Title}</Row>
+      <Row>Deadline: {Deadline}</Row>
+      <Row>Status: {Status}</Row>
     </Container>
   );
 }

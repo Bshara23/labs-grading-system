@@ -1,0 +1,12 @@
+.CourseTitle{
+    border: 1px solid rgb(195, 211, 255);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.CourseSubmittedHomeWork{
+    border: 2px solid rgb(137, 247, 134);
+}
+.CourseNotSubmittedHomeWork{
+    border: 2px solid rgb(248, 146, 146);
+}
