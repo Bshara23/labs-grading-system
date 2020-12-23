@@ -12,10 +12,12 @@ import {
   Button,
 } from "react-bootstrap";
 import { Icon, InlineIcon } from "@iconify/react";
-
-export default function Navbar2() {
+import { connect } from 'react-redux'
+  
+function Navbar2(props) {
   return (
     <>
+    {console.log("x:", props.currentCourse)}
       <Navbar collapseOnSelect sticky="top" expand="lg" className="navbarc">
         <Navbar.Brand id="gradingSystem" href="/">
           Grading System
@@ -52,3 +54,14 @@ export default function Navbar2() {
     </>
   );
 }
+const mapStateToProps = (state) => {
+  return { currentCourse: state.currentCourse };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar2);

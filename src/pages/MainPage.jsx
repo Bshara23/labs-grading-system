@@ -4,11 +4,16 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CourseCell from "../components/CourseCell";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setCurrentCourse,
+  currentCourse
+} from '../features/counter/Global';
+
 
 export default function MainPage() {
 
- 
-
+  const dispatch = useDispatch();
   return (
     <>
       <Container>
@@ -18,9 +23,9 @@ export default function MainPage() {
           return (
             <Row key={i}>
               <CourseCell
-                teacherName={course.TeacherName}
-                courseName={course.CourseName}
-               
+                teacherName={course.teacherName}
+                name={course.name}
+                onClick={()=>dispatch(setCurrentCourse(course))}
               />
             </Row>
           );
@@ -32,15 +37,15 @@ export default function MainPage() {
 
 const coursesData = [
   {
-    CourseName: "Web",
-    TeacherName: "Alex",
+    name: "Web",
+    teacherName: "Alex",
   },
   {
-    CourseName: "Final Project",
-    TeacherName: "Avi",
+    name: "Final Project",
+    teacherName: "Avi",
   },
   {
-    CourseName: "Zeev",
-    TeacherName: "Cryptography",
+    name: "Zeev",
+    teacherName: "Cryptography",
   },
 ];
