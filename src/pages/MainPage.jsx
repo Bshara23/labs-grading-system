@@ -9,11 +9,19 @@ import {
   setCurrentCourse,
   currentCourse
 } from '../features/counter/Global';
+import { useHistory } from "react-router-dom";
 
 
 export default function MainPage() {
+  const history = useHistory();
 
   const dispatch = useDispatch();
+
+
+  const onClick = (course) => {
+    history.push("/Course");
+    dispatch(setCurrentCourse(course))
+  }
   return (
     <>
       <Container>
@@ -25,7 +33,7 @@ export default function MainPage() {
               <CourseCell
                 teacherName={course.teacherName}
                 name={course.name}
-                onClick={()=>dispatch(setCurrentCourse(course))}
+                onClick={() => onClick(course)}
               />
             </Row>
           );
@@ -45,7 +53,7 @@ const coursesData = [
     teacherName: "Avi",
   },
   {
-    name: "Zeev",
-    teacherName: "Cryptography",
+    name: "Cryptography",
+    teacherName: "Ze'ev",
   },
 ];
