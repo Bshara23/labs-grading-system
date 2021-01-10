@@ -17,29 +17,42 @@ import HomeworksTeacherView from "./pages/HomeworksTeacherView";
 import HomeworkStudentView from "./pages/HomeworkStudentView";
 import SingleHomeworkTeacherView from "./pages/SingleHomeworkTeacherView";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
+import { setLogIn, ShowLogIn } from "./features/counter/Global";
+import { setCourses, ShowCourses } from "./features/counter/Global";
+import { setCourse, ShowCourse } from "./features/counter/Global";
+import { setHomeWorks, ShowHomeWorks } from "./features/counter/Global";
+import { setHomeWork, ShowHomeWork } from "./features/counter/Global";
+import { useSelector, useDispatch } from "react-redux";
 
-function App() {
+function App() {  
+  const Login = useSelector(ShowLogIn);
+  const courses = useSelector(ShowCourses);
+  const course = useSelector(ShowCourse);
+  const homeworks = useSelector(ShowHomeWorks);
+  const homework = useSelector(ShowHomeWork);
+  const dispatch = useDispatch();
+
   const btnClick = () => {
-    console.log("button clicked");
+    console.log(Login);
   };
-
   return (
       <Router>
         <div className="App">
           <Navbar />
           <Breadcrumb>
-            <Breadcrumb.Item  href="/">Home</Breadcrumb.Item>
-            <Breadcrumb.Item onclick="return false;" href="/Course">Course</Breadcrumb.Item>
-            <Breadcrumb.Item href="/HomeworksTeacherView" active={false}>
+            <Breadcrumb.Item  href="/" hidden={Login}>LogIn</Breadcrumb.Item>
+            <Breadcrumb.Item  href="/Courses" hidden={courses}>Home</Breadcrumb.Item>
+            <Breadcrumb.Item onclick={btnClick()} href="/Course" hidden={course}>Course</Breadcrumb.Item>
+            <Breadcrumb.Item href="/HomeworksTeacherView" active={false} hidden={homeworks}>
               Homeworks
             </Breadcrumb.Item>
-            <Breadcrumb.Item href="/SingleHomeworkTeacherView" active={false}>
+            <Breadcrumb.Item href="/SingleHomeworkTeacherView" hidden={homework} active={false}>
               Homework
             </Breadcrumb.Item>
           </Breadcrumb>
           <div className="body">
             <Switch>
-              <Route path="/" exact component={MainPage} />
+              <Route path="/" exact component={LogIn} />
               <Route path="/Courses" exact component={MainPage} />
               <Route path="/Course" exact component={Course} />
               <Route
@@ -65,6 +78,7 @@ function App() {
               {/* <Route path="/ProductCartPage" exact component={ProductCartPage}/> */}
             </Switch>
           </div>
+         
         </div>
       </Router>
   );

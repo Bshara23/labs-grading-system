@@ -1,0 +1,29 @@
+.HomeWorkContent{
+    font-size: 25px;
+	border: 1px solid #bebebe;
+    background-color: #e9e9e9;
+}
+.HomeWorkContent2{
+    font-size: 25px;
+	border: 1px solid #bebebe;
+    background-color: #ffffff;
+}
+.Comment-style{
+    width: auto;
+	border: 1px solid #8dffaf;
+	padding: 5px;
+}
+.Container-Style{
+    width: 1000px;  
+    margin-left: 0;
+}
+.Grade-Style{
+    width: 50px;
+    border: 2px solid #000000;
+    text-align: center;
+    color:rgb(0, 38, 255);
+}
+.Button-Style{
+    position: absolute;
+    margin-right: 10px;
+}

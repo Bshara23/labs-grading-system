@@ -6,7 +6,11 @@
 
 .CourseSubmittedHomeWork{
     border: 2px solid rgb(137, 247, 134);
+    cursor: pointer;
+
 }
 .CourseNotSubmittedHomeWork{
     border: 2px solid rgb(248, 146, 146);
+    cursor: pointer;
+
 }
