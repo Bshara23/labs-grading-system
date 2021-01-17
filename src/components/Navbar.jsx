@@ -13,12 +13,12 @@ import {
 } from "react-bootstrap";
 import { Icon, InlineIcon } from "@iconify/react";
 import { connect } from 'react-redux'
-  
+import "./Navbar.css"
 function Navbar2(props) {
   return (
     <>
     {console.log("x:", props.currentCourse)}
-      <Navbar collapseOnSelect sticky="top" expand="lg" className="navbarc">
+      <Navbar collapseOnSelect sticky="top" expand="lg" className="navbarc myNavBar shadow">
         <Navbar.Brand id="gradingSystem" href="/">
           Grading System
         </Navbar.Brand>
