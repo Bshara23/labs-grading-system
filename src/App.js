@@ -10,12 +10,7 @@ import { Provider } from "react-redux";
 //import ImagesSlider from './components/ImagesSlider'
 //import SlideShow from './components/SlideShow'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import MainPage from "./pages/MainPage";
-import LogIn from "./pages/LogIn";
-import Course from "./pages/Course";
-import HomeworksTeacherView from "./pages/HomeworksTeacherView";
-import HomeworkStudentView from "./pages/HomeworkStudentView";
-import SingleHomeworkTeacherView from "./pages/SingleHomeworkTeacherView";
+
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { setLogIn, ShowLogIn } from "./features/counter/Global";
 import { setCourses, ShowCourses } from "./features/counter/Global";
@@ -23,6 +18,13 @@ import { setCourse, ShowCourse } from "./features/counter/Global";
 import { setHomeWorks, ShowHomeWorks } from "./features/counter/Global";
 import { setHomeWork, ShowHomeWork } from "./features/counter/Global";
 import { useSelector, useDispatch } from "react-redux";
+
+import MainPage from "./pages/AllCoursesPage";
+import LogIn from "./pages/LogInPage";
+import Course from "./pages/CoursePage";
+import HomeworksTeacherView from "./pages/HomeworksTeacherViewPage";
+import HomeworkStudentView from "./pages/HomeworkStudentViewPage";
+import SingleHomeworkTeacherView from "./pages/SingleHomeworkTeacherViewPage";
 
 function App() {  
   const Login = useSelector(ShowLogIn);
