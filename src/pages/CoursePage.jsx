@@ -6,13 +6,13 @@ import CourseStudentHomeWorkCell from "../components/CourseStudentHomeWorkCell";
 import CourseTeacherHomeWorkCell from "../components/CourseTeacherHomeWorkCell";
 import "../components/Course.css";
 import { useSelector, useDispatch } from "react-redux";
-import { setCurrentCourse, currentCourse } from "../features/counter/Global";
-import { setCurrentHomeworkStudent, currentHomeworkStudent } from "../features/counter/Global";
-import { setCurrentHomeworkTeacher, currentHomeworkTeacher } from "../features/counter/Global";
+import { setCurrentCourse, currentCourse } from "../data/Global";
+import { setCurrentHomeworkStudent, currentHomeworkStudent } from "../data/Global";
+import { setCurrentHomeworkTeacher, currentHomeworkTeacher } from "../data/Global";
 import {
   setCurrentUser,
   currentUser
-} from '../features/counter/Global';
+} from '../data/Global';
 import { useHistory } from "react-router-dom";
 
 export default function Course() {

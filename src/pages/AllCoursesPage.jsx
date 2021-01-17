@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setCurrentCourse,
   currentCourse
-} from '../features/counter/Global';
+} from '../data/Global';
 import { useHistory } from "react-router-dom";
 
 

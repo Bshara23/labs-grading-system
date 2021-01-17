@@ -12,11 +12,11 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-import { setLogIn, ShowLogIn } from "./features/counter/Global";
-import { setCourses, ShowCourses } from "./features/counter/Global";
-import { setCourse, ShowCourse } from "./features/counter/Global";
-import { setHomeWorks, ShowHomeWorks } from "./features/counter/Global";
-import { setHomeWork, ShowHomeWork } from "./features/counter/Global";
+import { setLogIn, ShowLogIn } from "./data/Global";
+import { setCourses, ShowCourses } from "./data/Global";
+import { setCourse, ShowCourse } from "./data/Global";
+import { setHomeWorks, ShowHomeWorks } from "./data/Global";
+import { setHomeWork, ShowHomeWork } from "./data/Global";
 import { useSelector, useDispatch } from "react-redux";
 
 import MainPage from "./pages/AllCoursesPage";

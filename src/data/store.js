@@ -12,7 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import global from "../features/counter/Global"
+import global from "./Global"
 const persistConfig = {
   key: 'root',
   version: 1,

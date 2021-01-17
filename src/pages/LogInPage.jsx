@@ -6,9 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setCurrentUser,
   currentUser
-} from '../features/counter/Global';
+} from '../data/Global';
 import { useHistory } from "react-router-dom";
-import { setCourses, ShowCourses } from "../features/counter/Global";
+import { setCourses, ShowCourses } from "../data/Global";
 
 export default function Login() {
   const history = useHistory();

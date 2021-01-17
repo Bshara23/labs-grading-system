@@ -5,7 +5,7 @@ import "./Course.css";
 import "./SpecificHomeWork.css"
 import Col from 'react-bootstrap/Col';
 import Button from "react-bootstrap/Button";
-import { setCurrentHomeworkStudent, currentHomeworkStudent } from "../features/counter/Global";
+import { setCurrentHomeworkStudent, currentHomeworkStudent } from "../data/Global";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 

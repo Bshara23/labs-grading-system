@@ -1,5 +1,5 @@
 import React from 'react';
-import { setCurrentHomeworkStudent, currentHomeworkStudent } from "../features/counter/Global";
+import { setCurrentHomeworkStudent, currentHomeworkStudent } from "../data/Global";
 import { useSelector, useDispatch } from "react-redux";
 import SingleHomeworkTeacherViewCell from "../components/SingleHomeworkTeacherViewCell";
 import Container from "react-bootstrap/Container";
