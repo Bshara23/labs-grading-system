@@ -12,11 +12,14 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-import { setLogIn, ShowLogIn } from "./data/Global";
-import { setCourses, ShowCourses } from "./data/Global";
-import { setCourse, ShowCourse } from "./data/Global";
-import { setHomeWorks, ShowHomeWorks } from "./data/Global";
-import { setHomeWork, ShowHomeWork } from "./data/Global";
+import {
+  ShowLogIn,
+  ShowCourse,
+  ShowCourses,
+  ShowHomeWork,
+  ShowHomeWorks,
+} from "./data/Global";
+
 import { useSelector, useDispatch } from "react-redux";
 
 import MainPage from "./pages/AllCoursesPage";
@@ -26,63 +29,71 @@ import HomeworksTeacherView from "./pages/HomeworksTeacherViewPage";
 import HomeworkStudentView from "./pages/HomeworkStudentViewPage";
 import SingleHomeworkTeacherView from "./pages/SingleHomeworkTeacherViewPage";
 
-function App() {  
+function App() {
   const Login = useSelector(ShowLogIn);
-  const courses = useSelector(ShowCourses);
-  const course = useSelector(ShowCourse);
-  const homeworks = useSelector(ShowHomeWorks);
-  const homework = useSelector(ShowHomeWork);
+  const isCoursesHidden = useSelector(ShowCourses);
+  const isCourseHidden = useSelector(ShowCourse);
+  const isHomeworksHidden = useSelector(ShowHomeWorks);
+  const isHomeworkHidden = useSelector(ShowHomeWork);
   const dispatch = useDispatch();
 
-  const btnClick = () => {
-    console.log(Login);
-  };
   return (
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Breadcrumb>
-            <Breadcrumb.Item  href="/" hidden={Login}>LogIn</Breadcrumb.Item>
-            <Breadcrumb.Item  href="/Courses" hidden={courses}>Home</Breadcrumb.Item>
-            <Breadcrumb.Item onclick={btnClick()} href="/Course" hidden={course}>Course</Breadcrumb.Item>
-            <Breadcrumb.Item href="/HomeworksTeacherView" active={false} hidden={homeworks}>
-              Homeworks
-            </Breadcrumb.Item>
-            <Breadcrumb.Item href="/SingleHomeworkTeacherView" hidden={homework} active={false}>
-              Homework
-            </Breadcrumb.Item>
-          </Breadcrumb>
-          <div className="body">
-            <Switch>
-              <Route path="/" exact component={LogIn} />
-              <Route path="/Courses" exact component={MainPage} />
-              <Route path="/Course" exact component={Course} />
-              <Route
-                path="/HomeworksTeacherView"
-                exact
-                component={HomeworksTeacherView}
-              />
-              <Route
-                path="/SingleHomeworkTeacherView"
-                exact
-                component={SingleHomeworkTeacherView}
-              />
-              <Route
-                path="/HomeworkStudentView"
-                exact
-                component={HomeworkStudentView}
-              />
+    <Router>
+      <div className="App">
+        <Navbar />
+        <Breadcrumb>
+          {/* <Breadcrumb.Item  href="/" hidden={Login}>LogIn</Breadcrumb.Item> */}
+          <Breadcrumb.Item href="/Courses" hidden={isCoursesHidden}>
+            Home
+          </Breadcrumb.Item>
+          <Breadcrumb.Item href="/Course" hidden={isCourseHidden}>
+            Course
+          </Breadcrumb.Item>
+          <Breadcrumb.Item
+            href="/HomeworksTeacherView"
+            active={false}
+            hidden={isHomeworkHidden}
+          >
+            Homeworks
+          </Breadcrumb.Item>
+          <Breadcrumb.Item
+            href="/SingleHomeworkTeacherView"
+            hidden={isHomeworksHidden}
+            active={false}
+          >
+            Homework
+          </Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="body">
+          <Switch>
+            <Route path="/" exact component={LogIn} />
+            <Route path="/Courses" exact component={MainPage} />
+            <Route path="/Course" exact component={Course} />
+            <Route
+              path="/HomeworksTeacherView"
+              exact
+              component={HomeworksTeacherView}
+            />
+            <Route
+              path="/SingleHomeworkTeacherView"
+              exact
+              component={SingleHomeworkTeacherView}
+            />
+            <Route
+              path="/HomeworkStudentView"
+              exact
+              component={HomeworkStudentView}
+            />
 
-              {/* <Route path="/Shop" exact component={ShopSelection} />
+            {/* <Route path="/Shop" exact component={ShopSelection} />
             {/* <Route path="/Sales" exact component={Sales}/> */}
-              {/* <Route path="/ContactPage" exact component={MainPage} />  */}
+            {/* <Route path="/ContactPage" exact component={MainPage} />  */}
 
-              {/* <Route path="/ProductCartPage" exact component={ProductCartPage}/> */}
-            </Switch>
-          </div>
-         
+            {/* <Route path="/ProductCartPage" exact component={ProductCartPage}/> */}
+          </Switch>
         </div>
-      </Router>
+      </div>
+    </Router>
   );
 }
 

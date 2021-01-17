@@ -4,62 +4,73 @@ export const global = createSlice({
   name: "global",
   initialState: {
     ShowLogIn: false,
-    ShowCourses:true,
-    ShowCourse:true,
-    ShowHomeWorks:true,
-    ShowHomeWork:true,
+    ShowCourses: true,
+    ShowCourse: true,
+    ShowHomeWorks: true,
+    ShowHomeWork: true,
     currentUser: {
       id: "316546092",
       type: "teacher",
-    },currentCourse: {
+    },
+    currentCourse: {
       name: "Algorithms222",
       teacherName: "Alex",
-    },currentHomeworkStudent: {
+    },
+    currentHomeworkStudent: {
       Title: "HomeWork....",
       DeadLine: "21/10/20200000",
       Status: "Not Submitted",
       Description: "This is homework2 of Web",
-      Grade: "90"
-
-    },currentHomeworkTeacher: {
+      Grade: "90",
+    },
+    currentHomeworkTeacher: {
       Title: "HomeWork....",
       DeadLine: "21/10/20200000",
       Description: "This is homework2 of Web",
-    }
+    },
   },
   reducers: {
     setCurrentCourse: (state, action) => {
       state.currentCourse = action.payload;
-    }, setCurrentHomeworkStudent: (state, action) => {
-    state.currentHomeworkStudent = action.payload;
-  },setCurrentUser: (state, action) => {
-    state.currentUser = action.payload;
-  },setCurrentHomeworkTeacher: (state, action) => {
-    state.currentHomeworkTeacher = action.payload;
-  },setLogIn: (state, action) => {
-    state.ShowLogIn = action.payload;
-  },setCourses: (state, action) => {
-    state.ShowCourses = action.payload;
-  },setCourse: (state, action) => {
-    state.ShowCourse = action.payload;
-  },setHomeWorks: (state, action) => {
-    state.ShowHomeWorks = action.payload;
-  },setHomeWork: (state, action) => {
-    state.ShowHomeWork = action.payload;
-  }
-},
+    },
+    setCurrentHomeworkStudent: (state, action) => {
+      state.currentHomeworkStudent = action.payload;
+    },
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
+    },
+    setCurrentHomeworkTeacher: (state, action) => {
+      state.currentHomeworkTeacher = action.payload;
+    },
+    setLogInActive: (state, action) => {
+      state.ShowLogIn = action.payload;
+    },
+    setCoursesActive: (state, action) => {
+      state.ShowCourses = action.payload;
+    },
+    setCourseActive: (state, action) => {
+      state.ShowCourse = action.payload;
+    },
+    setHomeWorksActive: (state, action) => {
+      state.ShowHomeWorks = action.payload;
+    },
+    setHomeWorkActive: (state, action) => {
+      state.ShowHomeWork = action.payload;
+    },
+  },
 });
 
-export const { setCurrentCourse } = global.actions;
-export const { setCurrentHomeworkStudent } = global.actions;
-export const { setCurrentUser } = global.actions;
-export const { setCurrentHomeworkTeacher } = global.actions;
-export const { setLogIn } = global.actions;
-export const { setCourses } = global.actions;
-export const { setCourse } = global.actions;
-export const { setHomeWorks } = global.actions;
-export const { setHomeWork } = global.actions;
-
+export const {
+  setCurrentCourse,
+  setCourseActive,
+  setCoursesActive,
+  setCurrentHomeworkStudent,
+  setCurrentHomeworkTeacher,
+  setCurrentUser,
+  setHomeWorkActive,
+  setHomeWorksActive,
+  setLogInActive,
+} = global.actions;
 
 // TODO
 export const setCurrentCourseAsync = (course) => (dispatch) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import BasicButton from "../components/BasicButton";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -7,7 +7,9 @@ import CourseCell from "../components/CourseCell";
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setCurrentCourse,
-  currentCourse
+  currentCourse,
+  setCourseActive,
+  setHomeWorkActive
 } from '../data/Global';
 import { useHistory } from "react-router-dom";
 
@@ -16,6 +18,12 @@ export default function MainPage() {
   const history = useHistory();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setCourseActive(true))
+    dispatch(setHomeWorkActive(true))
+
+  }, [])
 
 
   const onClick = (course) => {

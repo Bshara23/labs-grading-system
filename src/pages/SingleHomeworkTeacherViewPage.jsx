@@ -1,12 +1,16 @@
-import React from 'react';
-import { setCurrentHomeworkStudent, currentHomeworkStudent } from "../data/Global";
+import React, {useEffect} from 'react';
+import { setCurrentHomeworkStudent, currentHomeworkStudent, setHomeWorksActive } from "../data/Global";
 import { useSelector, useDispatch } from "react-redux";
 import SingleHomeworkTeacherViewCell from "../components/SingleHomeworkTeacherViewCell";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 export default function SingleHomeworkTeacherView() {
   const Homework = useSelector(currentHomeworkStudent);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(setHomeWorksActive(false));
+  }, []);
   return (
     <>
     <h1 className=" p-3 mb-3">{Homework.Title}</h1>

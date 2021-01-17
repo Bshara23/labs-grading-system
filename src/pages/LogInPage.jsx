@@ -8,11 +8,10 @@ import {
   currentUser
 } from '../data/Global';
 import { useHistory } from "react-router-dom";
-import { setCourses, ShowCourses } from "../data/Global";
+import { setCoursesActive } from "../data/Global";
 
 export default function Login() {
   const history = useHistory();
-  const courses = useSelector(ShowCourses);
 
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -25,7 +24,7 @@ export default function Login() {
   function handleSubmit(event) {
     history.push("/Courses");
     dispatch(setCurrentUser(User))
-    dispatch(setCourses(true))    
+    dispatch(setCoursesActive(false))    
     event.preventDefault();
   }
 
