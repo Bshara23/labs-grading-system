@@ -9,26 +9,35 @@ import {
   setCurrentCourse,
   currentCourse,
   setCourseActive,
-  setHomeWorkActive
+  setHomeWorkActive,
+  currentUser
 } from '../data/Global';
 import { useHistory } from "react-router-dom";
-import {getUsersFromCourse,getUsersFromCourseBody} from '../API/API'
+import {getUsersFromCourse,getUsersFromCourseBody,getUserCourses} from '../API/API'
 
 export default function MainPage() {
   const history = useHistory();
-  const [teach, setTeacher] = useState("NA");
-  const [teach2, setTeacher2] = useState("NA");
+  const [coursesData, setCoursesData] = useState([]);
+  const user = useSelector(currentUser);
+  var Mycourses=[];
 
   const dispatch = useDispatch();
- 
+  var i;
   useEffect(() => {
    // on init
-   getUsersFromCourse(4, "teacher").then(res => {
-     console.log("teachers:", res);
-     if(res.data==[])
-     console.log("empty:");
-     else
-     setTeacher(res.data[0].fName);
+   getUserCourses(user.id).then(res => {
+     console.log("courses:", res);
+      const Mycourses=res.data;
+
+      for (i = 0; i < Mycourses.length; i++) {
+        getUsersFromCourse(Mycourses[i].id,"teacher").then(res => {
+          const vars = {id:res.data[0].id,title:res.data[0].title,teacherName:res.data[0].fName+" "+res.data[0].lName}
+          console.log("getting2: ", vars );
+          setCoursesData([...coursesData, vars])
+       }, [])
+      }
+      console.log("coursesData:", coursesData.length);    
+//  setcoursedata(res.data)
    })
    // on destroy
    return () => {
@@ -37,21 +46,7 @@ export default function MainPage() {
 
   }, [])
 
-  useEffect(() => {
-    // on init
-    getUsersFromCourseBody(4, "teacher").then(res => {
-      console.log("teachers:", res);
-      if(res.data==[])
-      console.log("empty:");
-      else
-      setTeacher(res.data[0].fName);
-    })
-    // on destroy
-    return () => {
-     console.log("Page allCourses closed");
-    }
- 
-   }, [])
+
   useEffect(() => {
     dispatch(setCourseActive(true))
     dispatch(setHomeWorkActive(true))
@@ -67,14 +62,15 @@ export default function MainPage() {
     <>
       <Container>
         {/* Stack the columns on mobile by making one full-width and the other half-width */}
-        <p>{teach}</p>
-        <p>{teach}</p>
+        {/* <p>{teach}</p>
+        <p>{teach}</p> */}
         {coursesData.map((course, i) => {
           return (
             <Row key={i}>
               <CourseCell
+
                 teacherName={course.teacherName}
-                name={course.name}
+                title={course.title}
                 onClick={() => onClick(course)}
               />
             </Row>
@@ -85,17 +81,17 @@ export default function MainPage() {
   );
 }
 
-const coursesData = [
-  {
-    name: "Web",
-    teacherName: "Alex",
-  },
-  {
-    name: "Final Project",
-    teacherName: "Avi",
-  },
-  {
-    name: "Cryptography",
-    teacherName: "Ze'ev",
-  },
-];
+// const coursesData = [
+//   {
+//     name: "Web",
+//     teacherName: "Alex",
+//   },
+//   {
+//     name: "Final Project",
+//     teacherName: "Avi",
+//   },
+//   {
+//     name: "Cryptography",
+//     teacherName: "Ze'ev",
+//   },
+// ];

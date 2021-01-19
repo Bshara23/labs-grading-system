@@ -13,10 +13,12 @@ export const global = createSlice({
       type: "teacher",
     },
     currentCourse: {
-      name: "Algorithms222",
+      title: "Algorithms222",
       teacherName: "Alex",
+      id:1,
     },
     currentHomeworkStudent: {
+      id:"111",
       Title: "HomeWork....",
       DeadLine: "21/10/20200000",
       Status: "Not Submitted",

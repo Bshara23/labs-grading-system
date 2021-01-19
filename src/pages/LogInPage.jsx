@@ -57,6 +57,6 @@ export default function Login() {
 }
 const User = 
   {
-    id: "123456789",
-    type: "teacher",
+    id: "111111111",
+    type: "student",
   }

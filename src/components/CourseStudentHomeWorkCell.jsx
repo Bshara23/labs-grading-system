@@ -4,7 +4,7 @@ import "./CourseCell.css";
 import "./Course.css";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function CourseStudentHomeWorkCell({ Title, DeadLine, Status,onClick }) {
+export default function CourseStudentHomeWorkCell({ id,Title, DeadLine, Status,onClick }) {
 
   const [isHovering, setIsHovering] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
