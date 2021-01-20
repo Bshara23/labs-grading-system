@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row } from "react-bootstrap";
+import InputForm from './InputForm'
 import "./CourseCell.css";
-
 
 export default function CourseCell({name, teacherName, onClick }) {
   const [isHovering, setIsHovering] = useState(false);

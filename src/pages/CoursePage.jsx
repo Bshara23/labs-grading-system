@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -30,7 +30,6 @@ export default function Course() {
     dispatch(setCourseActive(false))
     dispatch(setHomeWorkActive(true))
     dispatch(setHomeWorksActive(true));
-
   }, [])
 
 
@@ -44,14 +43,14 @@ export default function Course() {
     dispatch(setCurrentHomeworkTeacher(HomeWork));
     dispatch(setCourseActive(false));
     history.push("/HomeworksTeacherView");
-
-
   };
+
+
   if (user.type === "student") {
     return (
       <>
         <h1 className=" p-3 mb-3">{course.name}</h1>
-        <h4 className=" p-3 mb-3">
+             <h4 className=" p-3 mb-3">
           An algorithm (pronounced AL-go-rith-um) is a procedure or formula for
           solving a problem, based on conducting a sequence of specified
           actions. A computer program can be viewed as an elaborate algorithm.
