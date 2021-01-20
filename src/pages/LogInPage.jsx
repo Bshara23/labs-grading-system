@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import {
   setCurrentUser,
-  currentUser
-} from '../data/Global';
+  currentUser,
+  setCourseActive,
+  setHomeWorkActive,
+  setHomeWorksActive,
+} from "../data/Global";
 import { useHistory } from "react-router-dom";
 import { setCoursesActive } from "../data/Global";
 
 export default function Login() {
   const history = useHistory();
+
+  useEffect(() => {
+    dispatch(setCoursesActive(true));
+    dispatch(setCourseActive(true));
+    dispatch(setHomeWorkActive(true));
+    dispatch(setHomeWorksActive(true));
+  }, []);
 
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -23,8 +33,8 @@ export default function Login() {
 
   function handleSubmit(event) {
     history.push("/Courses");
-    dispatch(setCurrentUser(User))
-    dispatch(setCoursesActive(false))    
+    dispatch(setCurrentUser(User));
+    dispatch(setCoursesActive(false));
     event.preventDefault();
   }
 
@@ -55,8 +65,7 @@ export default function Login() {
     </div>
   );
 }
-const User = 
-  {
-    id: "123456789",
-    type: "teacher",
-  }
+const User = {
+  id: "111111111",
+  type: "student",
+};

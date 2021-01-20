@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import BasicButton from "../components/BasicButton";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -9,15 +9,43 @@ import {
   setCurrentCourse,
   currentCourse,
   setCourseActive,
-  setHomeWorkActive
+  setHomeWorkActive,
+  currentUser
 } from '../data/Global';
 import { useHistory } from "react-router-dom";
-
+import {getUsersFromCourse,getUsersFromCourseBody,getUserCourses} from '../API/API'
 
 export default function MainPage() {
   const history = useHistory();
+  const [coursesData, setCoursesData] = useState([]);
+  const user = useSelector(currentUser);
+  var Mycourses=[];
 
   const dispatch = useDispatch();
+  var i;
+  useEffect(() => {
+   // on init
+   getUserCourses(user.id).then(res => {
+     console.log("courses:", res);
+      const Mycourses=res.data;
+
+      for (i = 0; i < Mycourses.length; i++) {
+        getUsersFromCourse(Mycourses[i].id,"teacher").then(res => {
+          const vars = {id:res.data[0].id,title:res.data[0].title,teacherName:res.data[0].fName+" "+res.data[0].lName}
+          console.log("getting2: ", vars );
+          setCoursesData([...coursesData, vars])
+       }, [])
+      }
+      console.log("coursesData:", coursesData.length);    
+//  setcoursedata(res.data)
+   })
+   // on destroy
+   return () => {
+    console.log("Page allCourses closed");
+   }
+
+  }, [])
+
 
   useEffect(() => {
     dispatch(setCourseActive(true))
@@ -34,13 +62,15 @@ export default function MainPage() {
     <>
       <Container>
         {/* Stack the columns on mobile by making one full-width and the other half-width */}
-
+        {/* <p>{teach}</p>
+        <p>{teach}</p> */}
         {coursesData.map((course, i) => {
           return (
             <Row key={i}>
               <CourseCell
+
                 teacherName={course.teacherName}
-                name={course.name}
+                title={course.title}
                 onClick={() => onClick(course)}
               />
             </Row>
@@ -51,17 +81,17 @@ export default function MainPage() {
   );
 }
 
-const coursesData = [
-  {
-    name: "Web",
-    teacherName: "Alex",
-  },
-  {
-    name: "Final Project",
-    teacherName: "Avi",
-  },
-  {
-    name: "Cryptography",
-    teacherName: "Ze'ev",
-  },
-];
+// const coursesData = [
+//   {
+//     name: "Web",
+//     teacherName: "Alex",
+//   },
+//   {
+//     name: "Final Project",
+//     teacherName: "Avi",
+//   },
+//   {
+//     name: "Cryptography",
+//     teacherName: "Ze'ev",
+//   },
+// ];

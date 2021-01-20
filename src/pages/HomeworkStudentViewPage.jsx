@@ -1,38 +1,55 @@
-import React, {useEffect} from 'react';
-import { setHomeWorksActive, currentHomeworkStudent, setHomeWorkActive } from "../data/Global";
+import React, { useEffect, useState } from "react";
+import {
+  setHomeWorksActive,
+  currentHomeworkStudent,
+  setHomeWorkActive,
+} from "../data/Global";
 import { useSelector, useDispatch } from "react-redux";
 import SpecificHomeWorkCell from "../components/SpecificHomeWorkCell";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-export default function HomeworkStudentView() {
-  const Homework = useSelector(currentHomeworkStudent);
-  
-  const dispatch = useDispatch();
+import { getStudentHomeWork } from "../API/API";
 
+export default function HomeworkStudentView() {
+  const student_hw = useSelector(currentHomeworkStudent);
+  const [hwDetails, setSubmittedHomeWork] = useState("");
+  // var SubmittedHomeWork;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // on init
+    getStudentHomeWork(student_hw.id).then((res) => {
+      let x = res.data[0];
+      setSubmittedHomeWork(x);
+
+
+      //  setcoursedata(res.data)
+    });
+    // on destroy
+    return () => {
+      console.log("Page allCourses closed");
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(setHomeWorkActive(false));
     dispatch(setHomeWorksActive(true));
-
   }, []);
-
-
   return (
     <>
-    <h1 className=" p-3 mb-3">{Homework.Title}</h1>
-    <h4 className=" p-3 mb-3">
-        {Homework.Description}
-      </h4>
+      <h1 className=" p-3 mb-3">{student_hw.Title}</h1>
+      <h4 className=" p-3 mb-3">{student_hw.Description}</h4>
       <Container>
         {/* Stack the columns on mobile by making one full-width and the other half-width */}
-            <Row>
-              <SpecificHomeWorkCell
-                Status={Homework.Status}
-                Grade={Homework.Grade}
-                DeadLine={Homework.DeadLine}
-               
-              />
-            </Row>
+        <Row>
+          {hwDetails && (
+            <SpecificHomeWorkCell
+              Status={hwDetails.status}
+              Grade={hwDetails.grade}
+              DeadLine={student_hw.deadline}
+
+            />
+          )}
+        </Row>
       </Container>
     </>
   );

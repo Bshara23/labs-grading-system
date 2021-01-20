@@ -3,7 +3,8 @@ import { Container, Row } from "react-bootstrap";
 import InputForm from './InputForm'
 import "./CourseCell.css";
 
-export default function CourseCell({name, teacherName, onClick }) {
+
+export default function CourseCell({title, teacherName, onClick }) {
   const [isHovering, setIsHovering] = useState(false);
 
 
@@ -34,7 +35,7 @@ export default function CourseCell({name, teacherName, onClick }) {
         isHovering ? " shadow-lg" : "shadow "
       } p-4 mb-5 bg-white rounded `}
     >
-      <Row>{name}</Row>
+      <Row>{title}</Row>
       <Row>Teacher Name: {teacherName}</Row>
     </Container>
   );

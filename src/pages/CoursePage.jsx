@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -18,33 +18,68 @@ import {
 } from "../data/Global";
 
 import { useHistory } from "react-router-dom";
+import { getStudentHomeWorks,getCourseHomeWorks } from "../API/API";
 
 export default function Course() {
   const course = useSelector(currentCourse);
+  const [CourseStudentHomeWorks, setCoursesStudentHomeWorks] = useState([]);
+  const [CourseTeacherHomeWorks, setCoursesTeacherHomeWorks] = useState([]);
   const user = useSelector(currentUser);
   const history = useHistory();
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    if (user.type == "student") {
+      // on init
+      getStudentHomeWorks(user.id, course.id).then((res) => {
+        let sortedRes = res.data;
+        sortedRes.sort(function (a, b) {
+          return ('' + a.title).localeCompare(b.title);
+      })
+       
+        setCoursesStudentHomeWorks(sortedRes);
+        //  setcoursedata(res.data)
+      });
+      // on destroy
+      return () => {
+        console.log("Page allCourses closed");
+      };
+    }
+    else{
+      // on init
+      getCourseHomeWorks(course.id).then((res) => {
+        let sortedRes = res.data;
+      
+        sortedRes.sort(function (a, b) {
+          return ('' + a.title).localeCompare(b.title);
+      })
+       
+      setCoursesTeacherHomeWorks(sortedRes);
+        //  setcoursedata(res.data)
+      });
+      // on destroy
+      return () => {
+        console.log("Page allCourses closed");
+      };
+    }
+  }, []);
 
   useEffect(() => {
-    dispatch(setCourseActive(false))
-    dispatch(setHomeWorkActive(true))
+    dispatch(setCourseActive(false));
+    dispatch(setHomeWorkActive(true));
     dispatch(setHomeWorksActive(true));
-  }, [])
 
+  }, []);
 
   const onClickStudent = (HomeWork) => {
     dispatch(setCurrentHomeworkStudent(HomeWork));
     dispatch(setCourseActive(false));
     history.push("/HomeworkStudentView");
-    
   };
   const onClickTeacher = (HomeWork) => {
     dispatch(setCurrentHomeworkTeacher(HomeWork));
     dispatch(setCourseActive(false));
     history.push("/HomeworksTeacherView");
   };
-
 
   if (user.type === "student") {
     return (
@@ -64,9 +99,10 @@ export default function Course() {
             return (
               <Row key={i}>
                 <CourseStudentHomeWorkCell
-                  Title={HomeWork.Title}
-                  DeadLine={HomeWork.DeadLine}
-                  Status={HomeWork.Status}
+                  id={HomeWork.id}
+                  Title={HomeWork.title}
+                  DeadLine={HomeWork.deadline}
+                  Status={HomeWork.status}
                   onClick={() => onClickStudent(HomeWork)}
                 />
               </Row>
@@ -93,8 +129,8 @@ export default function Course() {
             return (
               <Row key={i}>
                 <CourseTeacherHomeWorkCell
-                  Title={HomeWork.Title}
-                  DeadLine={HomeWork.DeadLine}
+                  Title={HomeWork.title}
+                  DeadLine={HomeWork.deadline}
                   onClick={() => onClickTeacher(HomeWork)}
                 />
               </Row>
@@ -106,29 +142,29 @@ export default function Course() {
   }
 }
 
-const CourseStudentHomeWorks = [
-  {
-    Title: "HomeWork1",
-    DeadLine: "21/10/2020",
-    Status: "Submitted",
-    Description: "This is homework1 of Web",
-    Grade: "90",
-  },
-  {
-    Title: "HomeWork2",
-    DeadLine: "21/10/2020",
-    Status: "Not Submitted",
-    Description: "This is homework2 of Web",
-    Grade: "90",
-  },
-  {
-    Title: "HomeWork3",
-    DeadLine: "21/10/2020",
-    Status: "Submitted",
-    Description: "This is homework3 of Web",
-    Grade: "",
-  },
-];
+// const CourseStudentHomeWorks = [
+//   {
+//     Title: "HomeWork1",
+//     DeadLine: "21/10/2020",
+//     Status: "Submitted",
+//     Description: "This is homework1 of Web",
+//     Grade: "90",
+//   },
+//   {
+//     Title: "HomeWork2",
+//     DeadLine: "21/10/2020",
+//     Status: "Not Submitted",
+//     Description: "This is homework2 of Web",
+//     Grade: "90",
+//   },
+//   {
+//     Title: "HomeWork3",
+//     DeadLine: "21/10/2020",
+//     Status: "Submitted",
+//     Description: "This is homework3 of Web",
+//     Grade: "",
+//   },
+// ];
 
 const CourseTeacherHomeWorks = [
   {
