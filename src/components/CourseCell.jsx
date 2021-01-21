@@ -17,8 +17,6 @@ export default function CourseCell({title, teacherName, onClick }) {
   };
 
   const onContainerClick = () => {
-    
-    
     onClick()
   };
 
