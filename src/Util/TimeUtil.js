@@ -8,6 +8,7 @@ export const toDateTimeString = (isoStr) => {
   var curr = moment(isoStr);
   return curr.format("DD/MM/YYYY hh:mm")
 };
+
 export const timeFromDateISO = (isoStr) => {
   var old = moment(isoStr);
   var now = moment(new Date());

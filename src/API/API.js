@@ -2,7 +2,61 @@ import download from "downloadjs";
 
 const axios = require("axios");
 
+
 export const API_URL = "http://localhost:5000";
+export const UpdateGrade=async (SubmissionId,Grade)=>{
+  try {
+    return await axios
+    .put(API_URL + `/Grade/${SubmissionId}/${Grade}`);
+} catch (error) {
+  console.error(error);
+}
+};
+export const getTeachSubComments=async (SubmissionId)=>{
+  try {
+    return await axios
+    .get(API_URL + `/getTeachSubComments/${SubmissionId}`)
+    .then((res) => {
+      return res;
+    });
+} catch (error) {
+  console.error(error);
+}
+};
+export const getStudentDetails=async (StudentId) =>{
+  try {
+    return await axios
+    .get(API_URL + `/getStudentDetails/${StudentId}`)
+    .then((res) => {
+      return res;
+    });
+} catch (error) {
+  console.error(error);
+}
+};
+export const getStudentComments=async (StudentId,SubmissionId) =>{
+  try {
+    return await axios
+    .get(API_URL + `/getStuSubComments/${StudentId}/${SubmissionId}`)
+    .then((res) => {
+      return res;
+    });
+} catch (error) {
+  console.error(error);
+}
+};
+export const getStudentsHomeWorks=async (HomeWorkId) =>{
+  try {
+    return await axios
+    .get(API_URL + `/getAllStudentHomeWorks/${HomeWorkId}`)
+    .then((res) => {
+      console.log("my is: ",res.data);
+      return res;
+    });
+} catch (error) {
+  console.error(error);
+}
+};
 
 export const getStudentHomeWork = async (SubmittedId) => {
   try {

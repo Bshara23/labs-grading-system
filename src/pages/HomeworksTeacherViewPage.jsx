@@ -1,23 +1,38 @@
-import React, {useEffect} from "react";
+import React, {useEffect,useState} from "react";
 import {
-  setCurrentHomeworkStudent,
+  setCurrentHomeworkTeacher,
   setHomeWorksActive,
-  currentHomeworkStudent,
+  currentHomeworkTeacher,
   setHomeWorkActive,
+  setCurrStuTeachViewActive,
 } from "../data/Global";
 import { useSelector, useDispatch } from "react-redux";
 
 import StudentsHomeWorksCell from "../components/StudentsHomeWorksCell";
-
+import { getStudentsHomeWorks,getStudentComments,getStudentDetails,getTeachSubComments } from "../API/API";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useHistory } from "react-router-dom";
 import UploadDisplayer from "../components/UploadDisplayer";
 export default function HomeworkTeacherView() {
-  const Homework = useSelector(currentHomeworkStudent);
+  const Homework = useSelector(currentHomeworkTeacher);
   const history = useHistory();
   const dispatch = useDispatch();
+  const [StudentsHomeWorks, setStudentHomeWorks] = useState([]);
+
+  useEffect(() => {
+    // on init
+    getStudentsHomeWorks(Homework.id).then((res) => {
+      let x = res.data;
+      setStudentHomeWorks(x);
+    });
+    
+    // on destroy
+    return () => {
+      console.log("Page allCourses closed");
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(setHomeWorkActive(false));
@@ -25,47 +40,17 @@ export default function HomeworkTeacherView() {
 
   }, []);
 
-  const CourseStudentsHomeWorks = [
-    {
-      id: "316546092",
-      name: "Ayman Odeh",
-      Title: Homework.Title,
-      DeadLine: "21/10/2020",
-      Status: "Submitted",
-      homeworkfile: "file",
-      Description: "This is homework1 of Web",
-      Grade: Homework.Grade,
-      submitteddate: "20/10/2020",
-      studentcomment: "MY COMMENT",
-    },
-    {
-      id: "123456789",
-      name: "Ahmad",
-      Title: Homework.Title,
-      DeadLine: "21/10/2020",
-      homeworkfile: "file2",
-      Status: "Not Submitted",
-      Description: "This is homework1 of Web",
-      Grade: Homework.Grade,
-      submitteddate: "",
-      studentcomment: "MY COMMENT2",
-    },
-    {
-      id: "11111111",
-      name: "Bshara Zahran",
-      Title: Homework.Title,
-      DeadLine: "21/10/2020",
-      homeworkfile: "file3",
-      Status: "Submitted",
-      Description: "This is homework1 of Web",
-      Grade: Homework.Grade,
-      submitteddate: "18/10/2020",
-      studentcomment: "MY COMMENT3",
-    },
-  ];
-  const onClickTeacher = (HomeWork) => {
-    history.push("/SingleHomeworkTeacherView");
-    dispatch(setCurrentHomeworkStudent(HomeWork));
+  const onClickTeacher = (MyHomeWork) => {
+    let StudentDetails;
+    getStudentDetails(MyHomeWork.studentId).then((res) => {
+      StudentDetails= res.data;
+      let finalResult={id:MyHomeWork.id,studentId:MyHomeWork.studentId,
+      HomeWorkId:MyHomeWork.homeworkId,Name:StudentDetails[0].fName+" "+StudentDetails[0].lName,
+      updatedAt:MyHomeWork.updatedAt,status:MyHomeWork.status,grade:MyHomeWork.grade,
+      graderId:MyHomeWork.graderId,graderfullname:MyHomeWork.graderFullName}
+      history.push("/SingleHomeworkTeacherView");
+      dispatch(setCurrStuTeachViewActive(finalResult));
+    });
   };
   return (
     <>
@@ -79,14 +64,14 @@ export default function HomeworkTeacherView() {
       <Container>
         {/* Stack the columns on mobile by making one full-width and the other half-width */}
 
-        {CourseStudentsHomeWorks.map((HomeWork, i) => {
+        {StudentsHomeWorks.map((MyHomeWork, i) => {
           return (
             <Col key={i}>
               <StudentsHomeWorksCell
-                id={HomeWork.id}
-                SubmissionsDate={HomeWork.submitteddate}
-                Status={HomeWork.Status}
-                onClick={() => onClickTeacher(HomeWork)}
+                id={MyHomeWork.studentId}
+                SubmissionsDate={MyHomeWork.updatedAt}
+                Status={MyHomeWork.status}
+                onClick={() => onClickTeacher(MyHomeWork)}
               />
             </Col>
           );
