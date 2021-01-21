@@ -13,7 +13,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useHistory } from "react-router-dom";
-import InputForm from "../components/InputForm";
+import UploadDisplayer from "../components/UploadDisplayer";
 export default function HomeworkTeacherView() {
   const Homework = useSelector(currentHomeworkStudent);
   const history = useHistory();
@@ -73,7 +73,7 @@ export default function HomeworkTeacherView() {
       <h2 className=" p-3 mb-3">DeadLine: {Homework.DeadLine}</h2>
       <h4 className=" p-3 mb-3">{Homework.Description}</h4>
       <p>Files... todo add list</p>
-      <InputForm/>
+      <UploadDisplayer homework_id={1}/>
 
 
       <Container>

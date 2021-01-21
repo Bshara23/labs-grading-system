@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Container, Row } from "react-bootstrap";
-import InputForm from './InputForm'
 import "./CourseCell.css";
 
 
