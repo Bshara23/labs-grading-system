@@ -57,7 +57,6 @@ export default function HomeworkTeacherView() {
       <h1 className=" p-3 mb-3">{Homework.Title}</h1>
       <h2 className=" p-3 mb-3">DeadLine: {Homework.DeadLine}</h2>
       <h4 className=" p-3 mb-3">{Homework.Description}</h4>
-      <p>Files... todo add list</p>
       <UploadDisplayer homework_id={1}/>
 
 
