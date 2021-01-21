@@ -1,6 +1,59 @@
 const axios = require("axios");
 
 const root = "http://localhost:5000";
+export const UpdateGrade=async (SubmissionId,Grade)=>{
+  try {
+    return await axios
+    .put(root + `/Grade/${SubmissionId}/${Grade}`);
+} catch (error) {
+  console.error(error);
+}
+};
+export const getTeachSubComments=async (SubmissionId)=>{
+  try {
+    return await axios
+    .get(root + `/getTeachSubComments/${SubmissionId}`)
+    .then((res) => {
+      return res;
+    });
+} catch (error) {
+  console.error(error);
+}
+};
+export const getStudentDetails=async (StudentId) =>{
+  try {
+    return await axios
+    .get(root + `/getStudentDetails/${StudentId}`)
+    .then((res) => {
+      return res;
+    });
+} catch (error) {
+  console.error(error);
+}
+};
+export const getStudentComments=async (StudentId,SubmissionId) =>{
+  try {
+    return await axios
+    .get(root + `/getStuSubComments/${StudentId}/${SubmissionId}`)
+    .then((res) => {
+      return res;
+    });
+} catch (error) {
+  console.error(error);
+}
+};
+export const getStudentsHomeWorks=async (HomeWorkId) =>{
+  try {
+    return await axios
+    .get(root + `/getAllStudentHomeWorks/${HomeWorkId}`)
+    .then((res) => {
+      console.log("my is: ",res.data);
+      return res;
+    });
+} catch (error) {
+  console.error(error);
+}
+};
 
 export const getStudentHomeWork=async (SubmittedId) =>{
     try {

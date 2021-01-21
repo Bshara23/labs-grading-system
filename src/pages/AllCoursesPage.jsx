@@ -80,18 +80,3 @@ export default function MainPage() {
     </>
   );
 }
-
-// const coursesData = [
-//   {
-//     name: "Web",
-//     teacherName: "Alex",
-//   },
-//   {
-//     name: "Final Project",
-//     teacherName: "Avi",
-//   },
-//   {
-//     name: "Cryptography",
-//     teacherName: "Ze'ev",
-//   },
-// ];

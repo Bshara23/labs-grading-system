@@ -8,21 +8,32 @@ import Button from "react-bootstrap/Button";
 import { setCurrentHomeworkStudent, currentHomeworkStudent } from "../data/Global";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { UpdateGrade } from "../API/API";
+import Comment from "./Comment";
 
-export default function SingleHomeworkTeacherViewCell({ id, name, submitteddate, homeworkfile, Status,Grade, studentcomment}) {
+export default function SingleHomeworkTeacherViewCell({ id,SubmissionId, name, submitteddate, homeworkfile, Status,Grade, allcommentssorted}) {
   const [isHovering, setIsHovering] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [value, setValue] = React.useState({Grade});
+  const [grade, setgrade] = useState({Grade});
+  const [comment, setcomment] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
   const onMouseEnter = () => {
     setIsHovering(true);
   };
 
+  const handleComment = (g) => {
+    setcomment(g.target.value);
+  };
+  const handleGrade = (g) => {
+    setgrade(g.target.value);
+  };
   const onMouseLeave = () => {
     setIsHovering(false);
   };
   const onClickSave = () => {
+    console.log("grade",grade,SubmissionId);
+    UpdateGrade(SubmissionId, grade);
     history.push("/HomeworksTeacherView");
     //dispatch(setCurrentHomeworkStudent(HomeWork)) 
   };
@@ -62,17 +73,23 @@ export default function SingleHomeworkTeacherViewCell({ id, name, submitteddate,
         </Row>
         <Row >
       <Col className="HomeWorkContent2">Grade:</Col>
-        <Col className="HomeWorkContent2"><input className="Grade-Style"></input></Col>  </Row>
+        <Col className="HomeWorkContent2"><input className="Grade-Style" value={grade} onChange={handleGrade}></input></Col>  </Row>
+        
         <Row >
-        <Col className="HomeWorkContent">Student-Comment:</Col>
-        <Col className="HomeWorkContent" >{studentcomment}</Col> 
+        <Col className="HomeWorkContent">Comments:</Col>
+        <Col >
+        {allcommentssorted && allcommentssorted.map((comment, i) => {
+          return (
+            <Comment key={i} comment={comment}/>
+          );
+        })}
+        </Col>
         </Row>
-        <Row >
-      <Col className="HomeWorkContent2">Teacher-Comment:</Col>
-        <Col className="HomeWorkContent2"><textarea className="Comment-style"></textarea></Col>  </Row>
-        <Row >
-        <Col className="HomeWorkContent2"><Button onClick={() => onClickcCancel()}>Cancel</Button></Col>
-        <Col className="HomeWorkContent2"><Button onClick={() => onClickSave()}>Save</Button></Col>  
+        <Row className="HomeWorkContent">
+        <Col ><Row><Button onClick={() => onClickcCancel()}>Cancel</Button></Row>
+        <Row>        <Button onClick={() => onClickSave()}>Save</Button>
+</Row></Col>
+        <Col><textarea className="Comment-style" value={comment} onChange={handleComment}></textarea></Col>
         </Row>
     </Container>
    

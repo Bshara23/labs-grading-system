@@ -19,6 +19,7 @@ import {
 
 import { useHistory } from "react-router-dom";
 import { getStudentHomeWorks,getCourseHomeWorks } from "../API/API";
+import { getStudentsHomeWorks,getStudentComments,getStudentDetails,getTeachSubComments } from "../API/API";
 
 export default function Course() {
   const course = useSelector(currentCourse);
@@ -28,6 +29,8 @@ export default function Course() {
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("course title:",course.title);
+
     if (user.type == "student") {
       // on init
       getStudentHomeWorks(user.id, course.id).then((res) => {
@@ -52,7 +55,7 @@ export default function Course() {
         sortedRes.sort(function (a, b) {
           return ('' + a.title).localeCompare(b.title);
       })
-       
+
       setCoursesTeacherHomeWorks(sortedRes);
         //  setcoursedata(res.data)
       });
@@ -69,10 +72,18 @@ export default function Course() {
     dispatch(setHomeWorksActive(true));
   }, []);
 
-  const onClickStudent = (HomeWork) => {
-    dispatch(setCurrentHomeworkStudent(HomeWork));
-    dispatch(setCourseActive(false));
-    history.push("/HomeworkStudentView");
+  const onClickStudent = (MyHomeWork) => {
+    let StudentDetails;
+    getStudentDetails(MyHomeWork.studentId).then((res) => {
+      StudentDetails= res.data;
+      let studenthomework={id:MyHomeWork.id,studentId:MyHomeWork.studentId,description:MyHomeWork.description,
+        title:MyHomeWork.title,HomeWorkId:MyHomeWork.homeworkId,Name:StudentDetails[0].fName+" "+StudentDetails[0].lName,
+        updatedAt:MyHomeWork.updatedAt,status:MyHomeWork.status,grade:MyHomeWork.grade,deadline:MyHomeWork.deadline,
+      graderId:MyHomeWork.graderId,graderfullname:MyHomeWork.graderFullName}
+      history.push("/HomeworkStudentView");
+      dispatch(setCurrentHomeworkStudent(studenthomework));
+      dispatch(setCourseActive(false));
+    });
   };
   const onClickTeacher = (HomeWork) => {
     dispatch(setCurrentHomeworkTeacher(HomeWork));
@@ -82,7 +93,7 @@ export default function Course() {
   if (user.type === "student") {
     return (
       <>
-        <h1 className=" p-3 mb-3">{course.name}</h1>
+        <h1 className=" p-3 mb-3">{course.title}</h1>
         <h4 className=" p-3 mb-3">
           An algorithm (pronounced AL-go-rith-um) is a procedure or formula for
           solving a problem, based on conducting a sequence of specified
@@ -127,6 +138,7 @@ export default function Course() {
             return (
               <Row key={i}>
                 <CourseTeacherHomeWorkCell
+                  id={HomeWork.id}
                   Title={HomeWork.title}
                   DeadLine={HomeWork.deadline}
                   onClick={() => onClickTeacher(HomeWork)}

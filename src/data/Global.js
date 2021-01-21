@@ -18,17 +18,59 @@ export const global = createSlice({
       id:1,
     },
     currentHomeworkStudent: {
-      id:"111",
-      Title: "HomeWork....",
-      DeadLine: "21/10/20200000",
-      Status: "Not Submitted",
-      Description: "This is homework2 of Web",
-      Grade: "90",
+      id:"1",
+      title: "s",
+      description:"",
+      studentId:"123456789",
+      HomeWorkId:"123",
+      Name:"Ayman Odeh",
+      updatedAt: "21/10/2020",
+      status: "Submitted",
+      grade: "90",
+      deadline: "21/10/2020",
+      graderId:"111",
+      graderfullname:"aaa",
+    },
+    currentHomeworkStudentWithComments: {
+      id:"1",
+      title: "s",
+      description:"",
+      studentId:"123456789",
+      Name:"Ayman Odeh",
+      updatedAt: "21/10/2020",
+      status: "Submitted",
+      grade: "90",
+      deadline: "21/10/2020",
+      AllCommentsSorted: "This is homework2 of Web",
     },
     currentHomeworkTeacher: {
+      id:"123",
       Title: "HomeWork....",
       DeadLine: "21/10/20200000",
       Description: "This is homework2 of Web",
+    },
+    currentStudentTeacherView: {
+      id:"1",
+      studentId:"123456789",
+      HomeWorkId:"123",
+      Name:"Ayman Odeh",
+      updatedAt: "21/10/2020",
+      status: "Submitted",
+      grade: "90",
+      graderId:"111",
+      graderfullname:"aaa",
+    },
+    currentStudentTeacherViewWithComments: {
+      id:"1",
+      title: "s",
+      description:"",
+      studentId:"123456789",
+      Name:"Ayman Odeh",
+      updatedAt: "21/10/2020",
+      status: "Submitted",
+      grade: "90",
+      deadline: "21/10/2020",
+      AllCommentsSorted: "This is homework2 of Web",
     },
   },
   reducers: {
@@ -37,12 +79,19 @@ export const global = createSlice({
     },
     setCurrentHomeworkStudent: (state, action) => {
       state.currentHomeworkStudent = action.payload;
+    },setCurrentHomeworkStudentWithComments: (state, action) => {
+      state.currentHomeworkStudentWithComments = action.payload;
+    },setCurrentHomeworkTeachWithComments: (state, action) => {
+      state.currentStudentTeacherViewWithComments = action.payload;
     },
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload;
     },
     setCurrentHomeworkTeacher: (state, action) => {
       state.currentHomeworkTeacher = action.payload;
+    },
+    setCurrStuTeachViewActive: (state, action) => {
+      state.currentStudentTeacherView = action.payload;
     },
     setLogInActive: (state, action) => {
       state.ShowLogIn = action.payload;
@@ -72,6 +121,9 @@ export const {
   setHomeWorkActive,
   setHomeWorksActive,
   setLogInActive,
+  setCurrStuTeachViewActive,
+  setCurrentHomeworkStudentWithComments,
+  setCurrentHomeworkTeachWithComments,
 } = global.actions;
 
 // TODO
@@ -88,10 +140,13 @@ export const currentCourse = (state) => state.currentCourse;
 export const currentHomeworkStudent = (state) => state.currentHomeworkStudent;
 export const currentUser = (state) => state.currentUser;
 export const currentHomeworkTeacher = (state) => state.currentHomeworkTeacher;
+export const currStuTeachView = (state) => state.currentStudentTeacherView;
 export const ShowLogIn = (state) => state.ShowLogIn;
 export const ShowCourses = (state) => state.ShowCourses;
 export const ShowCourse = (state) => state.ShowCourse;
 export const ShowHomeWorks = (state) => state.ShowHomeWorks;
 export const ShowHomeWork = (state) => state.ShowHomeWork;
+export const CurrStudHWC = (state) => state.currentHomeworkStudentWithComments;
+export const CurrTeachStudHWC = (state) => state.currentStudentTeacherViewWithComments;
 
 export default global.reducer;
