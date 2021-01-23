@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row } from "react-bootstrap";
-import "./CourseCell.css";
-import "./Course.css";
-import "./SpecificHomeWork.css"
+
 import Col from 'react-bootstrap/Col';
 import Button from "react-bootstrap/Button";
 import { setCurrentHomeworkStudent, currentHomeworkStudent } from "../data/Global";

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "./Login.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setCurrentUser,
@@ -66,6 +65,6 @@ export default function Login() {
   );
 }
 const User = {
-  id: "111111111",
+  id: "315798504",
   type: "student",
 };

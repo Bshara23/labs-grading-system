@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import Dropzone from "react-dropzone";
-import axios from "axios";
 import {
   Form,
   Row,

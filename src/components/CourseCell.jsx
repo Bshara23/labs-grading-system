@@ -1,12 +1,8 @@
-import React, { useState } from "react";
-import { Container, Row } from "react-bootstrap";
-import "./CourseCell.css";
+import React, {useState} from 'react';
+import {Container, Row} from 'react-bootstrap';
 
-
-export default function CourseCell({title, teacherName, onClick }) {
+export default function CourseCell({course, onClick}) {
   const [isHovering, setIsHovering] = useState(false);
-
-
 
   const onMouseEnter = () => {
     setIsHovering(true);
@@ -17,25 +13,46 @@ export default function CourseCell({title, teacherName, onClick }) {
   };
 
   const onContainerClick = () => {
-    onClick()
+    onClick();
   };
-
 
   return (
 
-    <Container
+    <Container 
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onContainerClick}
-
-      className={`Container ${
-        isHovering ? " shadow-lg" : "shadow "
+      className={`course-cell Container ${
+        isHovering ? ' shadow-lg' : 'shadow '
       } p-4 mb-5 bg-white rounded `}
     >
-      <Row>{title}</Row>
-      <Row>Teacher Name: {teacherName}</Row>
+      {course && (
+        <>
+          <Row className="course-title">{course[0].title}</Row>
+          <TeachersNames teachers={course} />
+        </>
+      )}
     </Container>
+
   );
 }
 
+const TeachersNames = ({teachers}) => {
+  return (
+    <>
+      <p>Teachers:</p>
+      <div className="course-teachers-names">
+        {teachers.map((tch, i) => (
+          <TeacherName key={i} teacher={tch} />
+          
+        ))}
+      </div>
+    </>
+  );
+};
 
+const TeacherName = ({teacher}) => {
+  return (
+    <div className="teacher-name-clickable">{`${teacher.fname} ${teacher.lname}`}</div>
+  );
+};

@@ -94,12 +94,9 @@ export const getStudentHomeWorks = async (studentId, courseId) => {
 };
 export const getUsersFromCourse = async (id, type) => {
   try {
-    console.log("getting teacher");
-
     return await axios
       .get(API_URL + `/getteachersfromcourse/${id}/${type}`)
       .then((res) => {
-        console.log("gettingvvv teacher");
         return res;
       });
   } catch (error) {
@@ -116,6 +113,8 @@ export const getUserCourses = async (id) => {
     console.error(error);
   }
 };
+
+
 
 export const getUsersFromCourseBody = async (id, type) => {
   try {

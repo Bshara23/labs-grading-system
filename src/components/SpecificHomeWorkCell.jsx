@@ -1,13 +1,10 @@
-import React, { useState } from "react";
-import { Container, Row } from "react-bootstrap";
-import "./CourseCell.css";
-import "./Course.css";
-import "./SpecificHomeWork.css";
-import Col from "react-bootstrap/Col";
-import { toDateString } from "../Util/TimeUtil";
-import Comment from "./Comment";
-import Button from "react-bootstrap/Button";
-import { useHistory } from "react-router-dom";
+import React, {useState} from 'react';
+import {Container, Row} from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import {toDateString} from '../Util/TimeUtil';
+import Comment from './Comment';
+import Button from 'react-bootstrap/Button';
+import {useHistory} from 'react-router-dom';
 
 export default function SpecificHomeWorkCell({
   id,
@@ -30,7 +27,7 @@ export default function SpecificHomeWorkCell({
   const onMouseEnter = () => {
     setIsHovering(true);
   };
-  const [comment, setcomment] = useState("");
+  const [comment, setcomment] = useState('');
 
   const onMouseLeave = () => {
     setIsHovering(false);
@@ -42,12 +39,12 @@ export default function SpecificHomeWorkCell({
     // onClick()
   };
   const onClickSave = () => {
-    history.push("/HomeworksTeacherView");
-    //dispatch(setCurrentHomeworkStudent(HomeWork)) 
+    history.push('/HomeworksTeacherView');
+    //dispatch(setCurrentHomeworkStudent(HomeWork))
   };
-  const onClickcCancel= () => {
-    history.push("/HomeworksTeacherView");
-    //dispatch(setCurrentHomeworkStudent(HomeWork)) 
+  const onClickcCancel = () => {
+    history.push('/HomeworksTeacherView');
+    //dispatch(setCurrentHomeworkStudent(HomeWork))
   };
   return (
     <Container
@@ -62,33 +59,42 @@ export default function SpecificHomeWorkCell({
       </Row>
       <Row>
         <Col className="HomeWorkContent2">Grade:</Col>
-        <Col className="HomeWorkContent2">{Grade}</Col>{" "}
+        <Col className="HomeWorkContent2">{Grade}</Col>{' '}
       </Row>
       <Row>
         <Col className="HomeWorkContent">DeadLine:</Col>
-        <Col className="HomeWorkContent">{deadline}</Col>{" "}
+        <Col className="HomeWorkContent">{deadline}</Col>{' '}
       </Row>
       <Row>
         <Col className="HomeWorkContent2">TimeLeft:</Col>
-        <Col className="HomeWorkContent2">11 Days</Col>{" "}
+        <Col className="HomeWorkContent2">11 Days</Col>{' '}
       </Row>
       <Row>
         <Col className="HomeWorkContent">Comments:</Col>
         <Col>
           {allcommentssorted.map((comment, i) => {
-            return (
-              <Comment key={i} comment={comment}/>
-
-            );
+            return <Comment key={i} comment={comment} />;
           })}
         </Col>
       </Row>
       <Row className="HomeWorkContent">
-        <Col ><Row><Button onClick={() => onClickcCancel()}>Cancel</Button></Row>
-        <Row>        <Button onClick={() => onClickSave()}>Save</Button>
-</Row></Col>
-        <Col><textarea className="Comment-style" value={comment} onChange={handleComment}></textarea></Col>
-        </Row>
+        <Col>
+          <Row>
+            <Button onClick={() => onClickcCancel()}>Cancel</Button>
+          </Row>
+          <Row>
+            {' '}
+            <Button onClick={() => onClickSave()}>Save</Button>
+          </Row>
+        </Col>
+        <Col>
+          <textarea
+            className="Comment-style"
+            value={comment}
+            onChange={handleComment}
+          ></textarea>
+        </Col>
+      </Row>
     </Container>
   );
 }

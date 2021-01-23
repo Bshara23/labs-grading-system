@@ -13,7 +13,6 @@ import {
 } from "react-bootstrap";
 import { Icon, InlineIcon } from "@iconify/react";
 import { connect } from 'react-redux'
-import "./Navbar.css"
 function Navbar2(props) {
   return (
     <>

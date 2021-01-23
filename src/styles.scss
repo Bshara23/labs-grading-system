@@ -162,3 +162,123 @@ h1,
     width: 100%;
   }
 }
+.course-cell {
+  
+  .teacher-name-clickable {
+    color: #0e7bf1;
+    margin-right: 15px;
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+  .course-teachers-names {
+    display: flex;
+  }
+  .course-title {
+    margin-bottom: 5%;
+    font-weight: 600;
+    font-size: large;
+  }
+}
+
+
+////// Courses
+
+.CourseTitle{
+  border: 1px solid rgb(195, 211, 255);
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.CourseSubmittedHomeWork{
+  border: 2px solid rgb(137, 247, 134);
+  cursor: pointer;
+
+}
+.CourseNotSubmittedHomeWork{
+  border: 2px solid rgb(248, 146, 146);
+  cursor: pointer;
+
+}
+
+
+///////// CourseCell
+
+.Container{
+  border: 1px solid rgb(195, 211, 255);
+  cursor: pointer;
+
+}
+.Container:hover{
+  border: 1px solid rgb(195, 211, 255);
+  cursor: pointer;
+}
+
+.ContainerOnHover{
+  border: 2px solid rgb(62, 107, 231);
+}
+
+
+////// Homework
+
+.HomeWorkNotUploaded{
+  border: 2px solid rgb(137, 247, 134);
+}
+
+//////// Navbar
+
+.myNavBar{
+  background-color: white;
+}
+
+/////// SpecificHomeWork
+
+.HomeWorkContent{
+  font-size: 25px;
+border: 1px solid #bebebe;
+  background-color: #e9e9e9;
+}
+.HomeWorkContent2{
+  font-size: 25px;
+border: 1px solid #bebebe;
+  background-color: #ffffff;
+}
+.HomeWorkContent3{
+border: 1px solid #bebebe;
+  background-color: #ffffff;
+  color:rgb(0, 38, 255);
+}
+.Comment-style{
+  width: auto;
+border: 1px solid #8dffaf;
+padding: 5px;
+}
+.Container-Style{
+  width: 1000px;  
+  margin-left: 0;
+}
+.Grade-Style{
+  width: 50px;
+  border: 2px solid #000000;
+  text-align: center;
+  color:rgb(0, 38, 255);
+}
+.Button-Style{
+  position: absolute;
+  margin-right: 10px;
+}
+
+
+/// Login
+
+@media all and (min-width: 480px) {
+  .Login {
+    padding: 60px 0;
+  }
+
+  .Login form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+}

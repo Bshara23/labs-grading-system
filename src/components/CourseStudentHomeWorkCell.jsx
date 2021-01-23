@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row } from "react-bootstrap";
-import "./CourseCell.css";
-import "./Course.css";
+
 import { useSelector, useDispatch } from "react-redux";
 
 export default function CourseStudentHomeWorkCell({ id,Title, DeadLine, Status,onClick }) {

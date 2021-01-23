@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { Container, Row } from "react-bootstrap";
-import "./CourseCell.css";
-import "./Course.css";
-import Col from 'react-bootstrap/Col';
+import React, {useState} from 'react';
+import {Container, Row} from 'react-bootstrap';
 
-export default function StudentsHomeWorksCell({ id, SubmissionsDate,Status,onClick}) {
+export default function StudentsHomeWorksCell({
+  id,
+  SubmissionsDate,
+  Status,
+  onClick,
+}) {
   const [isHovering, setIsHovering] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const onMouseEnter = () => {
@@ -15,29 +17,23 @@ export default function StudentsHomeWorksCell({ id, SubmissionsDate,Status,onCli
     setIsHovering(false);
   };
   const onContainerClick = () => {
-    
-    
-    onClick()
+    onClick();
   };
 
   return (
-
     <Container
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onContainerClick}
-    className={`Container ${
-      isHovering ? " shadow-lg" : "shadow "
-    }${
-      Status=="Submitted" ? "CourseSubmittedHomeWork" : "CourseNotSubmittedHomeWork"
-    } p-4 mb-5 rounded `}
-      
+      className={`Container ${isHovering ? ' shadow-lg' : 'shadow '}${
+        Status == 'Submitted'
+          ? 'CourseSubmittedHomeWork'
+          : 'CourseNotSubmittedHomeWork'
+      } p-4 mb-5 rounded `}
     >
-    
       <Row>id: {id}</Row>
       <Row>Submissions Date: {SubmissionsDate}</Row>
       <Row>Status: {Status}</Row>
-       
     </Container>
   );
 }

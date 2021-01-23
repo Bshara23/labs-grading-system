@@ -1,5 +1,4 @@
 import React from "react";
-import "./BasicButton.css";
 import Button from "react-bootstrap/Button";
 const BasicButton = ({ onClick, label }) => {
   return (

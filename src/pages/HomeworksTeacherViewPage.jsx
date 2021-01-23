@@ -1,20 +1,25 @@
-import React, {useEffect,useState} from "react";
+import React, {useEffect, useState} from 'react';
 import {
   setCurrentHomeworkTeacher,
   setHomeWorksActive,
   currentHomeworkTeacher,
   setHomeWorkActive,
   setCurrStuTeachViewActive,
-} from "../data/Global";
-import { useSelector, useDispatch } from "react-redux";
+} from '../data/Global';
+import {useSelector, useDispatch} from 'react-redux';
 
-import StudentsHomeWorksCell from "../components/StudentsHomeWorksCell";
-import { getStudentsHomeWorks,getStudentComments,getStudentDetails,getTeachSubComments } from "../API/API";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { useHistory } from "react-router-dom";
-import UploadDisplayer from "../components/UploadDisplayer";
+import StudentsHomeWorksCell from '../components/StudentsHomeWorksCell';
+import {
+  getStudentsHomeWorks,
+  getStudentComments,
+  getStudentDetails,
+  getTeachSubComments,
+} from '../API/API';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import {useHistory} from 'react-router-dom';
+import UploadDisplayer from '../components/UploadDisplayer';
 export default function HomeworkTeacherView() {
   const Homework = useSelector(currentHomeworkTeacher);
   const history = useHistory();
@@ -27,38 +32,44 @@ export default function HomeworkTeacherView() {
       let x = res.data;
       setStudentHomeWorks(x);
     });
-    
+
     // on destroy
     return () => {
-      console.log("Page allCourses closed");
+      console.log('Page allCourses closed');
     };
   }, []);
 
   useEffect(() => {
     dispatch(setHomeWorkActive(false));
     dispatch(setHomeWorksActive(true));
-
   }, []);
 
   const onClickTeacher = (MyHomeWork) => {
     let StudentDetails;
     getStudentDetails(MyHomeWork.studentId).then((res) => {
-      StudentDetails= res.data;
-      let finalResult={id:MyHomeWork.id,studentId:MyHomeWork.studentId,
-      HomeWorkId:MyHomeWork.homeworkId,Name:StudentDetails[0].fName+" "+StudentDetails[0].lName,
-      updatedAt:MyHomeWork.updatedAt,status:MyHomeWork.status,grade:MyHomeWork.grade,
-      graderId:MyHomeWork.graderId,graderfullname:MyHomeWork.graderFullName}
-      history.push("/SingleHomeworkTeacherView");
+      StudentDetails = res.data;
+      let finalResult = {
+        id: MyHomeWork.id,
+        studentId: MyHomeWork.studentId,
+        HomeWorkId: MyHomeWork.homeworkId,
+        Name: StudentDetails[0].fName + ' ' + StudentDetails[0].lName,
+        updatedAt: MyHomeWork.updatedAt,
+        status: MyHomeWork.status,
+        grade: MyHomeWork.grade,
+        graderId: MyHomeWork.graderId,
+        graderfullname: MyHomeWork.graderFullName,
+      };
+      history.push('/SingleHomeworkTeacherView');
       dispatch(setCurrStuTeachViewActive(finalResult));
     });
   };
+  console.log(`Entering Homework [${Homework.id}]`);
   return (
     <>
       <h1 className=" p-3 mb-3">{Homework.Title}</h1>
       <h2 className=" p-3 mb-3">DeadLine: {Homework.DeadLine}</h2>
       <h4 className=" p-3 mb-3">{Homework.Description}</h4>
-      <UploadDisplayer homework_id={1}/>
-
+      <UploadDisplayer homework_id={Homework.id} />
 
       <Container>
         {/* Stack the columns on mobile by making one full-width and the other half-width */}
