@@ -1,61 +1,71 @@
-import download from "downloadjs";
+import download from 'downloadjs';
 
-const axios = require("axios");
+const axios = require('axios');
 
+export const API_URL = 'http://localhost:5000';
+export const UpdateGrade = async (SubmissionId, Grade) => {
+  try {
+    return await axios.put(API_URL + `/Grade/${SubmissionId}/${Grade}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const sendComment = async (
+  authorid,
+  authorfullname,
+  authortype,
+  submissionid,
+  content
+) => {
+  try {
+    return await axios
+      .post(API_URL + `/AddComment`, {
+        authorid,
+        authorfullname,
+        authortype,
+        submissionid,
+        content,
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getComments = async (SubmissionId) => {
+  try {
+    return await axios
+      .get(API_URL + `/getComments/${SubmissionId}`)
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getStudentDetails = async (StudentId) => {
+  try {
+    return await axios
+      .get(API_URL + `/getStudentDetails/${StudentId}`)
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-export const API_URL = "http://localhost:5000";
-export const UpdateGrade=async (SubmissionId,Grade)=>{
+export const getStudentsHomeWorks = async (HomeWorkId) => {
   try {
     return await axios
-    .put(API_URL + `/Grade/${SubmissionId}/${Grade}`);
-} catch (error) {
-  console.error(error);
-}
-};
-export const getTeachSubComments=async (SubmissionId)=>{
-  try {
-    return await axios
-    .get(API_URL + `/getTeachSubComments/${SubmissionId}`)
-    .then((res) => {
-      return res;
-    });
-} catch (error) {
-  console.error(error);
-}
-};
-export const getStudentDetails=async (StudentId) =>{
-  try {
-    return await axios
-    .get(API_URL + `/getStudentDetails/${StudentId}`)
-    .then((res) => {
-      return res;
-    });
-} catch (error) {
-  console.error(error);
-}
-};
-export const getStudentComments=async (StudentId,SubmissionId) =>{
-  try {
-    return await axios
-    .get(API_URL + `/getStuSubComments/${StudentId}/${SubmissionId}`)
-    .then((res) => {
-      return res;
-    });
-} catch (error) {
-  console.error(error);
-}
-};
-export const getStudentsHomeWorks=async (HomeWorkId) =>{
-  try {
-    return await axios
-    .get(API_URL + `/getAllStudentHomeWorks/${HomeWorkId}`)
-    .then((res) => {
-      console.log("my is: ",res.data);
-      return res;
-    });
-} catch (error) {
-  console.error(error);
-}
+      .get(API_URL + `/getAllStudentHomeWorks/${HomeWorkId}`)
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getStudentHomeWork = async (SubmittedId) => {
@@ -114,8 +124,6 @@ export const getUserCourses = async (id) => {
   }
 };
 
-
-
 export const getUsersFromCourseBody = async (id, type) => {
   try {
     return await axios
@@ -130,24 +138,26 @@ export const getUsersFromCourseBody = async (id, type) => {
   }
 };
 
-export const getFiles = async (homework_id) => {
+export const getFiles = async (fkValue, fk, table) => {
   try {
-    return await axios.get(API_URL + `/files/${homework_id}`).then((res) => {
-      return res;
-    });
+    return await axios
+      .get(API_URL + `/files/${fkValue}/${table}/${fk}`)
+      .then((res) => {
+        return res;
+      });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const uploadFile = async (file, homeworkId) => {
+export const uploadFile = async (file, fkValue, fk, table) => {
   try {
-    const url = API_URL + "/uploadFile/" + homeworkId;
+    const url = API_URL + `/uploadFile/${fkValue}/${table}/${fk}`;
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
     const config = {
       headers: {
-        "content-type": "multipart/form-data",
+        'content-type': 'multipart/form-data',
       },
     };
     return await axios.post(url, formData, config).then((res) => {
@@ -156,12 +166,12 @@ export const uploadFile = async (file, homeworkId) => {
   } catch (error) {}
 };
 
-export const downloadFile = async (id, path, mimetype) => {
+export const downloadFile = async (id, table, path, mimetype) => {
   try {
-    const result = await axios.get(`${API_URL}/download/${id}`, {
-      responseType: "blob",
+    const result = await axios.get(`${API_URL}/download/${id}/${table}`, {
+      responseType: 'blob',
     });
-    const split = path.split("_e_e_e_");
+    const split = path.split('_e_e_e_');
     const filename = split[split.length - 1];
     return download(result.data, filename, mimetype);
   } catch (error) {

@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import CourseStudentHomeWorkCell from '../components/CourseStudentHomeWorkCell';
 import CourseTeacherHomeWorkCell from '../components/CourseTeacherHomeWorkCell';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  setCurrentUser,
   currentUser,
   setCourseActive,
   setHomeWorkActive,
@@ -14,16 +12,16 @@ import {
   setCurrentHomeworkStudent,
   setCurrentHomeworkTeacher,
   setHomeWorksActive,
+  setCurrentHomeworkTitle,
+  setHideSubmissionDetails,
 } from '../data/Global';
 
 import {useHistory} from 'react-router-dom';
 import {getStudentHomeWorks, getCourseHomeWorks} from '../API/API';
 import {
-  getStudentsHomeWorks,
-  getStudentComments,
   getStudentDetails,
-  getTeachSubComments,
 } from '../API/API';
+import UploadDisplayer from '../components/UploadDisplayer';
 
 export default function Course() {
   const course = useSelector(currentCourse);
@@ -36,8 +34,6 @@ export default function Course() {
   const [courseName, setCourseName] = useState('');
   const [courseDescription, setCourseDescription] = useState('');
   useEffect(() => {
-    console.log('course:', course);
-    console.log('user:', user);
     setCourseName(course[0].title);
     setCourseDescription(course[0].description);
 
@@ -48,7 +44,6 @@ export default function Course() {
         return ('' + a.title).localeCompare(b.title);
       });
       setCoursesTeacherHomeWorks(sortedRes);
-      console.log('setCoursesTeacherHomeWorks', sortedRes);
     });
 
     getStudentHomeWorks(user.id, course[0].cid).then((res) => {
@@ -58,7 +53,6 @@ export default function Course() {
       });
 
       setCoursesStudentHomeWorks(sortedRes);
-      console.log('student', sortedRes);
     });
   }, []);
 
@@ -66,6 +60,8 @@ export default function Course() {
     dispatch(setCourseActive(false));
     dispatch(setHomeWorkActive(true));
     dispatch(setHomeWorksActive(true));
+    dispatch(setHideSubmissionDetails(true));
+
   }, []);
 
   const onClickStudent = (MyHomeWork) => {
@@ -94,6 +90,7 @@ export default function Course() {
   const onClickTeacher = (HomeWork) => {
     dispatch(setCurrentHomeworkTeacher(HomeWork));
     dispatch(setCourseActive(false));
+    dispatch(setCurrentHomeworkTitle(HomeWork.title))
     history.push('/HomeworksTeacherView');
   };
 
@@ -101,6 +98,14 @@ export default function Course() {
     <>
       <h1 className=" p-2">{courseName}</h1>
       <h5 className=" p-4">{courseDescription}</h5>
+      {course && course.length > 0 && (
+        <UploadDisplayer
+          fkValue={course[0].cid}
+          fk="course_id"
+          table="course_file"
+          allowUpload={user.type == 'teacher'}
+        />
+      )}
       <Container>
         {/* Stack the columns on mobile by making one full-width and the other half-width */}
 

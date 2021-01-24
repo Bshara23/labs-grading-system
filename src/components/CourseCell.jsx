@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {Container, Row} from 'react-bootstrap';
+import { useDispatch } from "react-redux";
 
 export default function CourseCell({course, onClick}) {
   const [isHovering, setIsHovering] = useState(false);
+  const dispatch = useDispatch();
 
   const onMouseEnter = () => {
     setIsHovering(true);

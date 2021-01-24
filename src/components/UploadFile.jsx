@@ -2,8 +2,7 @@ import React, { useState, useRef } from "react";
 import Dropzone from "react-dropzone";
 import {
   Form,
-  Row,
-  Col,
+
   Button,
   Spinner,
   Toast,
@@ -12,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { uploadFile } from "../API/API";
 
-const UploadFile = ({ homework_id, setFileUploadedAt }) => {
+const UploadFile = ({ fkValue, fk, table, setFileUploadedAt }) => {
   const [file, setFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState("");
   const [isUploading, setIsUploading] = useState(false);
@@ -50,12 +49,15 @@ const UploadFile = ({ homework_id, setFileUploadedAt }) => {
       if (file) {
         setErrorMsg("");
         setIsUploading(true);
-        uploadFile(file, homework_id ? homework_id : 1).then((res) => {
+        uploadFile(file, fkValue, fk, table).then((res) => {
           setIsUploading(false);
           setFile(null);
           setShowToast(true);
           setPreviewSrc("");
           setFileUploadedAt(new Date().toISOString());
+          setTimeout(() => {
+            setShowToast(false);
+          }, 2500);
         });
       } else {
         setErrorMsg("Please select a file to add.");
@@ -107,7 +109,7 @@ const UploadFile = ({ homework_id, setFileUploadedAt }) => {
         </div>
         <div className="upload-submit-button">
           <Button variant="primary" type="submit">
-            Submit
+            Upload
           </Button>
         </div>
         {isUploading && <Spinner animation="border" variant="primary" />}

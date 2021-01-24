@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setCurrentUser,
-  currentUser,
   setCourseActive,
   setHomeWorkActive,
   setHomeWorksActive,
@@ -14,6 +13,7 @@ import { setCoursesActive } from "../data/Global";
 
 export default function Login() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setCoursesActive(true));
@@ -22,7 +22,6 @@ export default function Login() {
     dispatch(setHomeWorksActive(true));
   }, []);
 
-  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -66,5 +65,7 @@ export default function Login() {
 }
 const User = {
   id: "315798504",
-  type: "student",
+  type: "teacher",
+  fname: "Bshara",
+  lname: "Zahran"
 };

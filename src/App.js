@@ -1,42 +1,38 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from './components/Navbar';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-//import MainGallery from './components/MainGallery'
-import Navbar from "./components/Navbar";
-import { Provider } from "react-redux";
-
-//import d1 from './imgs/R4by5S1mb/d1.jpg'
-//import ImagesSlider from './components/ImagesSlider'
-//import SlideShow from './components/SlideShow'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-import Breadcrumb from "react-bootstrap/Breadcrumb";
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import {
   ShowLogIn,
   ShowCourse,
   ShowCourses,
   ShowHomeWork,
-  ShowHomeWorks,
-} from "./data/Global";
+  hideSubmissionDetails,
+  currentHomeworkTitle,
+  currentCourseTitle,
+  currentSubmissionStudentId,
+} from './data/Global';
 
-import { useSelector, useDispatch } from "react-redux";
+import {useSelector, useDispatch} from 'react-redux';
 
-import MainPage from "./pages/AllCoursesPage";
-import LogIn from "./pages/LogInPage";
-import Course from "./pages/CoursePage";
-import HomeworksTeacherView from "./pages/HomeworksTeacherViewPage";
-import HomeworkStudentView from "./pages/HomeworkStudentViewPage";
-import SingleHomeworkTeacherView from "./pages/SingleHomeworkTeacherViewPage";
+import MainPage from './pages/AllCoursesPage';
+import LogIn from './pages/LogInPage';
+import Course from './pages/CoursePage';
+import HomeworksTeacherView from './pages/HomeworksTeacherViewPage';
+import HomeworkStudentView from './pages/HomeworkStudentViewPage';
+import SubmissionTeacherView from './pages/SubmissionTeacherView';
 
 function App() {
   const Login = useSelector(ShowLogIn);
   const isCoursesHidden = useSelector(ShowCourses);
   const isCourseHidden = useSelector(ShowCourse);
-  const isHomeworksHidden = useSelector(ShowHomeWorks);
+  const isSubmissionDetailsHidden = useSelector(hideSubmissionDetails);
   const isHomeworkHidden = useSelector(ShowHomeWork);
-  const dispatch = useDispatch();
-
+  const currHwTitle = useSelector(currentHomeworkTitle);
+  const currCourseTitle = useSelector(currentCourseTitle);
+  const currSubmissionStudentId = useSelector(currentSubmissionStudentId);
   return (
     <Router>
       <div className="App">
@@ -47,21 +43,21 @@ function App() {
             Home
           </Breadcrumb.Item>
           <Breadcrumb.Item href="/Course" hidden={isCourseHidden}>
-            Course
+            {currCourseTitle}
           </Breadcrumb.Item>
           <Breadcrumb.Item
             href="/HomeworksTeacherView"
             active={false}
             hidden={isHomeworkHidden}
           >
-            Homeworks
+            {currHwTitle}
           </Breadcrumb.Item>
           <Breadcrumb.Item
-            href="/SingleHomeworkTeacherView"
-            hidden={isHomeworksHidden}
+            href="/SubmissionTeacherView"
             active={false}
+            hidden={isSubmissionDetailsHidden}
           >
-            Homework
+            {currSubmissionStudentId}
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className="body">
@@ -75,21 +71,15 @@ function App() {
               component={HomeworksTeacherView}
             />
             <Route
-              path="/SingleHomeworkTeacherView"
+              path="/SubmissionTeacherView"
               exact
-              component={SingleHomeworkTeacherView}
+              component={SubmissionTeacherView}
             />
             <Route
               path="/HomeworkStudentView"
               exact
               component={HomeworkStudentView}
             />
-
-            {/* <Route path="/Shop" exact component={ShopSelection} />
-            {/* <Route path="/Sales" exact component={Sales}/> */}
-            {/* <Route path="/ContactPage" exact component={MainPage} />  */}
-
-            {/* <Route path="/ProductCartPage" exact component={ProductCartPage}/> */}
           </Switch>
         </div>
       </div>

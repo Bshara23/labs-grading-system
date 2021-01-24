@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import download from "downloadjs";
-import axios from "axios";
-import { API_URL, getFiles, downloadFile } from "../API/API";
+import { getFiles, downloadFile } from "../API/API";
 import { toDateTimeString } from "../Util/TimeUtil";
 
-const FilesList = ({ homework_id, fileUploadedAt }) => {
+const FilesList = ({ fkValue, fk, table, fileUploadedAt }) => {
   const [filesList, setFilesList] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   const getFilesList = async () => {
     try {
-      getFiles(homework_id ? homework_id : 1).then((res) => {
+      getFiles(fkValue, fk, table).then((res) => {
         setErrorMsg("");
         if (res) setFilesList(res.data);
       });
@@ -21,9 +19,8 @@ const FilesList = ({ homework_id, fileUploadedAt }) => {
     getFilesList();
   }, [fileUploadedAt]);
 
-  const downloadFileCapsule = (id, path, mimetype) => {
-    console.log(id, path, mimetype);
-    downloadFile(id, path, mimetype);
+  const downloadFileCapsule = (id, table, path, mimetype) => {
+    downloadFile(id, table, path, mimetype);
   };
 
   return (
@@ -42,12 +39,10 @@ const FilesList = ({ homework_id, fileUploadedAt }) => {
             filesList.map(
               ({
                 created_at,
-                homework_id,
                 id,
                 mimetype,
                 path,
                 title,
-                updated_at,
               }) => (
                 <tr key={id}>
                   <td className="file-title">{title}</td>
@@ -57,8 +52,7 @@ const FilesList = ({ homework_id, fileUploadedAt }) => {
                   <td>
                     <a
                       className="file-download"
-                      //href="#/"
-                      onClick={() => downloadFileCapsule(id, path, mimetype)}
+                      onClick={() => downloadFileCapsule(id, table, path, mimetype)}
                     >
                       Download
                     </a>

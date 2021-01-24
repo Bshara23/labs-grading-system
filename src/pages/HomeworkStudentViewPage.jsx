@@ -3,20 +3,12 @@ import {
   setHomeWorksActive,
   currentHomeworkStudent,
   setHomeWorkActive,
-  setCurrentHomeworkStudentWithComments,
-  CurrStudHWC,
 } from "../data/Global";
 import { useSelector, useDispatch } from "react-redux";
 import SpecificHomeWorkCell from "../components/SpecificHomeWorkCell";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import { getStudentHomeWork } from "../API/API";
-import {
-  getStudentsHomeWorks,
-  getStudentComments,
-  getTeachSubComments,
-} from "../API/API";
-import { intifiy } from "../Util/TimeUtil";
+
 
 export default function HomeworkStudentView() {
   const student_hw = useSelector(currentHomeworkStudent);
@@ -25,48 +17,45 @@ export default function HomeworkStudentView() {
   const dispatch = useDispatch();
   useEffect(() => {
     // on init
-    let StudentComments;
-    let AllComments=[];
-    let textStudComments = "";
-    let textTeachComments = "";
-    let TeacherComments;
-    var i;
-    var j=0;
-    getStudentComments(student_hw.studentId, student_hw.id).then((res) => {
-      StudentComments = res.data;
-      getTeachSubComments(student_hw.id).then((res) => {
-        TeacherComments = res.data;
-        console.log("cccd",TeacherComments);
-        for (i = 0; i < TeacherComments.length+StudentComments.length; i+=2){
-          if(TeacherComments.length>j)
-          AllComments[i]=TeacherComments[j];
-          if(StudentComments.length>j)
-          AllComments[i+1]=StudentComments[j];
-          j++;
-        }         
-        AllComments.sort((a,b)=> -intifiy(a.createdAt) + intifiy(b.createdAt))             
-        let finalResult = {
-          id: student_hw.id,
-          studentId: student_hw.studentId,
-          description: student_hw.description,
-          Name: student_hw.Name,
-          deadline: student_hw.deadline,
-          updatedAt: student_hw.updatedAt,
-          status: student_hw.status,
-          grade: student_hw.grade,
-          title: student_hw.title,
-          AllCommentsSorted: AllComments,
-        };
+    // let StudentComments;
+    // let AllComments=[];
+    // let textStudComments = "";
+    // let textTeachComments = "";
+    // let TeacherComments;
+    // var i;
+    // var j=0;
+    // getStudentComments(student_hw.studentId, student_hw.id).then((res) => {
+    //   StudentComments = res.data;
+    //   getTeachSubComments(student_hw.id).then((res) => {
+    //     TeacherComments = res.data;
+    //     console.log("cccd",TeacherComments);
+    //     for (i = 0; i < TeacherComments.length+StudentComments.length; i+=2){
+    //       if(TeacherComments.length>j)
+    //       AllComments[i]=TeacherComments[j];
+    //       if(StudentComments.length>j)
+    //       AllComments[i+1]=StudentComments[j];
+    //       j++;
+    //     }         
+    //     AllComments.sort((a,b)=> -intifiy(a.createdAt) + intifiy(b.createdAt))             
+    //     let finalResult = {
+    //       id: student_hw.id,
+    //       studentId: student_hw.studentId,
+    //       description: student_hw.description,
+    //       Name: student_hw.Name,
+    //       deadline: student_hw.deadline,
+    //       updatedAt: student_hw.updatedAt,
+    //       status: student_hw.status,
+    //       grade: student_hw.grade,
+    //       title: student_hw.title,
+    //       AllCommentsSorted: AllComments,
+    //     };
 
-        dispatch(setCurrentHomeworkStudentWithComments(finalResult));
-        setSubmittedHomeWork(finalResult);
-      });
-    });
+    //     dispatch(setCurrentHomeworkStudentWithComments(finalResult));
+    //     setSubmittedHomeWork(finalResult);
+    //   });
+    // });
 
-    // on destroy
-    return () => {
-      console.log("Page allCourses closed");
-    };
+  
   }, []);
 
   useEffect(() => {

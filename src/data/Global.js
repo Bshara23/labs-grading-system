@@ -1,76 +1,81 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from '@reduxjs/toolkit';
 
 export const global = createSlice({
-  name: "global",
+  name: 'global',
   initialState: {
     ShowLogIn: false,
     ShowCourses: true,
     ShowCourse: true,
     ShowHomeWorks: true,
     ShowHomeWork: true,
+    hideSubmissionDetails: true,
+    currentHomeworkTitle: 'Homework',
+    currentSubmissionStudentId: 'na',
+    currentSubmission: null,
     currentUser: {
-      id: "316546092",
-      type: "teacher",
+      id: '316546092',
+      type: 'teacher',
     },
     currentCourse: {
-      title: "Algorithms222",
-      teacherName: "Alex",
-      id:1,
+      title: 'Algorithms222',
+      teacherName: 'Alex',
+      id: 1,
     },
+    currentCourseTitle: 'na',
     currentHomeworkStudent: {
-      id:"1",
-      title: "s",
-      description:"",
-      studentId:"123456789",
-      HomeWorkId:"123",
-      Name:"Ayman Odeh",
-      updatedAt: "21/10/2020",
-      status: "Submitted",
-      grade: "90",
-      deadline: "21/10/2020",
-      graderId:"111",
-      graderfullname:"aaa",
+      id: '1',
+      title: 's',
+      description: '',
+      studentId: '123456789',
+      HomeWorkId: '123',
+      Name: 'Ayman Odeh',
+      updatedAt: '21/10/2020',
+      status: 'Submitted',
+      grade: '90',
+      deadline: '21/10/2020',
+      graderId: '111',
+      graderfullname: 'aaa',
     },
     currentHomeworkStudentWithComments: {
-      id:"1",
-      title: "s",
-      description:"",
-      studentId:"123456789",
-      Name:"Ayman Odeh",
-      updatedAt: "21/10/2020",
-      status: "Submitted",
-      grade: "90",
-      deadline: "21/10/2020",
-      AllCommentsSorted: "This is homework2 of Web",
+      id: '1',
+      title: 's',
+      description: '',
+      studentId: '123456789',
+      Name: 'Ayman Odeh',
+      updatedAt: '21/10/2020',
+      status: 'Submitted',
+      grade: '90',
+      deadline: '21/10/2020',
+      AllCommentsSorted: 'This is homework2 of Web',
     },
     currentHomeworkTeacher: {
-      id:"123",
-      Title: "HomeWork....",
-      DeadLine: "21/10/20200000",
-      Description: "This is homework2 of Web",
+      id: '123',
+      Title: 'HomeWork....',
+      DeadLine: '21/10/20200000',
+      Description: 'This is homework2 of Web',
     },
     currentStudentTeacherView: {
-      id:"1",
-      studentId:"123456789",
-      HomeWorkId:"123",
-      Name:"Ayman Odeh",
-      updatedAt: "21/10/2020",
-      status: "Submitted",
-      grade: "90",
-      graderId:"111",
-      graderfullname:"aaa",
+      id: '1',
+      studentId: '123456789',
+      HomeWorkId: '123',
+      Name: 'Ayman Odeh',
+      updatedAt: '21/10/2020',
+      status: 'Submitted',
+      grade: '90',
+      graderId: '111',
+      graderfullname: 'aaa',
     },
     currentStudentTeacherViewWithComments: {
-      id:"1",
-      title: "s",
-      description:"",
-      studentId:"123456789",
-      Name:"Ayman Odeh",
-      updatedAt: "21/10/2020",
-      status: "Submitted",
-      grade: "90",
-      deadline: "21/10/2020",
-      AllCommentsSorted: "This is homework2 of Web",
+      id: '1',
+      title: 's',
+      description: '',
+      studentId: '123456789',
+      Name: 'Ayman Odeh',
+      updatedAt: '21/10/2020',
+      status: 'Submitted',
+      grade: '90',
+      deadline: '21/10/2020',
+      AllCommentsSorted: 'This is homework2 of Web',
     },
   },
   reducers: {
@@ -79,9 +84,11 @@ export const global = createSlice({
     },
     setCurrentHomeworkStudent: (state, action) => {
       state.currentHomeworkStudent = action.payload;
-    },setCurrentHomeworkStudentWithComments: (state, action) => {
+    },
+    setCurrentHomeworkStudentWithComments: (state, action) => {
       state.currentHomeworkStudentWithComments = action.payload;
-    },setCurrentHomeworkTeachWithComments: (state, action) => {
+    },
+    setCurrentHomeworkTeachWithComments: (state, action) => {
       state.currentStudentTeacherViewWithComments = action.payload;
     },
     setCurrentUser: (state, action) => {
@@ -108,6 +115,21 @@ export const global = createSlice({
     setHomeWorkActive: (state, action) => {
       state.ShowHomeWork = action.payload;
     },
+    setCurrentHomeworkTitle: (state, action) => {
+      state.currentHomeworkTitle = action.payload;
+    },
+    setCurrentSubmission: (state, action) => {
+      state.currentSubmission = action.payload;
+    },
+    setHideSubmissionDetails: (state, action) => {
+      state.hideSubmissionDetails = action.payload;
+    },
+    setCurrentCourseTitle: (state, action) => {
+      state.currentCourseTitle = action.payload;
+    },
+    setCurrentSubmissionStudentId: (state, action) => {
+      state.currentSubmissionStudentId = action.payload;
+    },
   },
 });
 
@@ -124,6 +146,11 @@ export const {
   setCurrStuTeachViewActive,
   setCurrentHomeworkStudentWithComments,
   setCurrentHomeworkTeachWithComments,
+  setCurrentHomeworkTitle,
+  setCurrentSubmission,
+  setHideSubmissionDetails,
+  setCurrentCourseTitle,
+  setCurrentSubmissionStudentId,
 } = global.actions;
 
 // TODO
@@ -147,6 +174,12 @@ export const ShowCourse = (state) => state.ShowCourse;
 export const ShowHomeWorks = (state) => state.ShowHomeWorks;
 export const ShowHomeWork = (state) => state.ShowHomeWork;
 export const CurrStudHWC = (state) => state.currentHomeworkStudentWithComments;
-export const CurrTeachStudHWC = (state) => state.currentStudentTeacherViewWithComments;
-
+export const CurrTeachStudHWC = (state) =>
+  state.currentStudentTeacherViewWithComments;
+export const currentHomeworkTitle = (state) => state.currentHomeworkTitle;
+export const currentSubmission = (state) => state.currentSubmission;
+export const hideSubmissionDetails = (state) => state.hideSubmissionDetails;
+export const currentCourseTitle = (state) => state.currentCourseTitle;
+export const currentSubmissionStudentId = (state) =>
+  state.currentSubmissionStudentId;
 export default global.reducer;

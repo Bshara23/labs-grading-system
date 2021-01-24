@@ -1,23 +1,24 @@
-import React from "react";
+import React from 'react';
 import {
   Navbar,
-  Brand,
-  Toggle,
-  Collapse,
-  Link,
-  Item,
-  NavDropdown,
+
   Nav,
-  Badge,
-  Button,
-} from "react-bootstrap";
-import { Icon, InlineIcon } from "@iconify/react";
-import { connect } from 'react-redux'
+
+} from 'react-bootstrap';
+import {Icon, InlineIcon} from '@iconify/react';
+import {connect} from 'react-redux';
 function Navbar2(props) {
+  const onLogOut = () => {
+  }
+  
   return (
     <>
-    {console.log("x:", props.currentCourse)}
-      <Navbar collapseOnSelect sticky="top" expand="lg" className="navbarc myNavBar shadow">
+      <Navbar
+        collapseOnSelect
+        sticky="top"
+        expand="lg"
+        className="navbarc myNavBar shadow"
+      >
         <Navbar.Brand id="gradingSystem" href="/">
           Grading System
         </Navbar.Brand>
@@ -37,15 +38,11 @@ function Navbar2(props) {
                 <Badge variant="primary">{this.props.cartItemsCount}</Badge>
               </div>
             </Nav.Link> */}
-            <Nav.Link
-              eventKey={2}
-              href="/ContactPage"
-              
-            >
-              <div>
-               
-                Log Out
-              </div>
+            <Nav.Link eventKey={2} href="/profile" onClick={onLogOut}>
+              <div>Bshara</div>
+            </Nav.Link>
+            <Nav.Link eventKey={2} href="/" onClick={onLogOut}>
+              <div>Log Out</div>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -54,7 +51,7 @@ function Navbar2(props) {
   );
 }
 const mapStateToProps = (state) => {
-  return { currentCourse: state.currentCourse };
+  return {currentCourse: state.currentCourse};
 };
 
 const mapDispatchToProps = (dispatch) => {
