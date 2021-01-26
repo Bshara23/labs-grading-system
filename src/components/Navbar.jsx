@@ -1,16 +1,18 @@
 import React from 'react';
-import {
-  Navbar,
-
-  Nav,
-
-} from 'react-bootstrap';
+import {Navbar, Nav} from 'react-bootstrap';
 import {Icon, InlineIcon} from '@iconify/react';
 import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import { setCurrentUser } from '../data/Global';
+
+
 function Navbar2(props) {
+  const dispatch = useDispatch();
+
   const onLogOut = () => {
-  }
-  
+    dispatch(setCurrentUser(null));
+  };
+
   return (
     <>
       <Navbar
