@@ -28,8 +28,9 @@ import {
 import {getStudentDetails} from '../API/API';
 import UploadDisplayer from '../components/UploadDisplayer';
 import {MdEdit, MdCheck} from 'react-icons/md';
-import {FormControl} from 'react-bootstrap';
+import {Button, FormControl} from 'react-bootstrap';
 import EditableParagraph from '../components/EditableParagraph';
+import { toDateTimeString } from '../Util/TimeUtil';
 
 export default function Course() {
   const course = useSelector(currentCourse);
@@ -116,7 +117,7 @@ export default function Course() {
   };
 
   const updateCourseLocal = (title, description) => {
-    let courseCopy = JSON.parse(JSON.stringify(course))
+    let courseCopy = JSON.parse(JSON.stringify(course));
     courseCopy.forEach((c) => {
       c.title = title;
       c.description = description;
@@ -125,18 +126,22 @@ export default function Course() {
     dispatch(setCurrentCourseTitle(courseCopy[0].title));
   };
 
+  const onClickAddHomework = () => {
+    history.push('/HomeworkForm');
+  };
+
   return (
     <>
-      {user.type == 'teacher' ? (
+      {user && user.type == 'teacher' ? (
         <EditableParagraph
-          headingClass="h1"
+          headingClass="h1 text-center"
           value={courseName}
           onEditSuccess={onEditTitleSuccess}
         />
       ) : (
         <h1 className=" p-2">{courseName}</h1>
       )}
-      {user.type == 'teacher' ? (
+      {user && user.type == 'teacher' ? (
         <EditableParagraph
           headingClass="h5"
           value={courseDescription}
@@ -156,32 +161,53 @@ export default function Course() {
       <Container>
         {/* Stack the columns on mobile by making one full-width and the other half-width */}
 
-        {user.type == 'teacher'
-          ? CourseTeacherHomeWorks.map((HomeWork, i) => {
-              return (
-                <Row key={i}>
-                  <CourseTeacherHomeWorkCell
-                    id={HomeWork.id}
-                    Title={HomeWork.title}
-                    DeadLine={HomeWork.deadline}
-                    onClick={() => onClickTeacher(HomeWork)}
-                  />
-                </Row>
-              );
-            })
-          : CourseStudentHomeWorks.map((HomeWork, i) => {
-              return (
-                <Row key={i}>
-                  <CourseStudentHomeWorkCell
-                    id={HomeWork.id}
-                    Title={HomeWork.title}
-                    DeadLine={HomeWork.deadline}
-                    Status={HomeWork.status}
-                    onClick={() => onClickStudent(HomeWork)}
-                  />
-                </Row>
-              );
-            })}
+        <h3 className="text-center">Homeworks</h3>
+        {user.type == 'teacher' && (
+          <div className="d-flex flex-row-reverse mt-3 mb-3">
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={onClickAddHomework}
+            >
+              Add Homework
+            </Button>
+          </div>
+        )}
+
+        {user.type == 'teacher' && CourseTeacherHomeWorks.length == 0 && (
+          <h5>No homeworks yet!, add homework</h5>
+        )}
+        {user.type == 'teacher' &&
+          CourseTeacherHomeWorks.map((HomeWork, i) => {
+            return (
+              <Row key={i}>
+                <CourseTeacherHomeWorkCell
+                  id={HomeWork.id}
+                  Title={HomeWork.title}
+                  DeadLine={toDateTimeString(HomeWork.deadline)}
+                  onClick={() => onClickTeacher(HomeWork)}
+                />
+              </Row>
+            );
+          })}
+
+        {user.type == 'student' && CourseTeacherHomeWorks.length == 0 && (
+          <h5>No homeworks yet!</h5>
+        )}
+        {user.type == 'student' &&
+          CourseStudentHomeWorks.map((HomeWork, i) => {
+            return (
+              <Row key={i}>
+                <CourseStudentHomeWorkCell
+                  id={HomeWork.id}
+                  Title={HomeWork.title}
+                  DeadLine={toDateTimeString(HomeWork.deadline)}
+                  Status={HomeWork.status}
+                  onClick={() => onClickStudent(HomeWork)}
+                />
+              </Row>
+            );
+          })}
       </Container>{' '}
     </>
   );

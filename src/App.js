@@ -25,6 +25,7 @@ import HomeworksTeacherView from './pages/HomeworksTeacherViewPage';
 import HomeworkStudentView from './pages/HomeworkStudentViewPage';
 import SubmissionTeacherView from './pages/SubmissionTeacherView';
 import CourseForm from './components/CourseForm';
+import HomeworkForm from './components/HomeworkForm';
 
 function App() {
   const Login = useSelector(ShowLogIn);
@@ -53,7 +54,9 @@ function App() {
           <Breadcrumb.Item href="/CourseForm" hidden={isAddCourseHidd}>
             Add Course
           </Breadcrumb.Item>
-
+          <Breadcrumb.Item href="/HomeworkForm" hidden={isAddCourseHidd}>
+            Add Homework
+          </Breadcrumb.Item>
 
           <Breadcrumb.Item
             href="/HomeworksTeacherView"
@@ -77,7 +80,7 @@ function App() {
             <Route path="/Courses" exact component={MainPage} />
             <Route path="/Course" exact component={Course} />
             <Route path="/CourseForm" exact component={CourseForm} />
-
+            <Route path="/HomeworkForm" exact component={HomeworkForm}/>
             <Route
               path="/HomeworksTeacherView"
               exact

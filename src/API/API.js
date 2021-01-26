@@ -3,6 +3,23 @@ import download from 'downloadjs';
 const axios = require('axios');
 
 export const API_URL = 'http://localhost:5000';
+export const addHomework = async (cid, title, description, deadline) => {
+  try {
+    return await axios
+      .post(API_URL + `/AddHomework`, {
+        cid,
+        title,
+        description,
+        deadline,
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const updateCourse = async (id, title, description) => {
   try {
     return await axios
