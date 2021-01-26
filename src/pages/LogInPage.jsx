@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { useDispatch } from "react-redux";
+import React, {useState, useEffect, useRef} from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import {useDispatch} from 'react-redux';
 import {
   setCurrentUser,
   setCourseActive,
   setHomeWorkActive,
   setHomeWorksActive,
-} from "../data/Global";
-import { useHistory } from "react-router-dom";
-import { setCoursesActive } from "../data/Global";
-
+  setIsAddCourseHidden,
+} from '../data/Global';
+import {useHistory} from 'react-router-dom';
+import {setCoursesActive} from '../data/Global';
+import {logIn} from '../API/API';
+import TemporaryAlert from '../components/TemporaryAlert';
 export default function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -20,32 +22,49 @@ export default function Login() {
     dispatch(setCourseActive(true));
     dispatch(setHomeWorkActive(true));
     dispatch(setHomeWorksActive(true));
+    dispatch(setIsAddCourseHidden(true));
   }, []);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const alertRef = useRef();
   function validateForm() {
-    return email.length > 0 && password.length > 0;
+    return id.length > 0 && password.length > 0;
   }
 
-  function handleSubmit(event) {
-    history.push("/Courses");
-    dispatch(setCurrentUser(User));
-    dispatch(setCoursesActive(false));
-    event.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
+    logIn(id, password).then((res) => {
+      if (res.data.length != 0) {
+
+        history.push('/Courses');
+        dispatch(setCurrentUser(res.data[0]));
+        dispatch(setCoursesActive(false));
+      } else {
+        alertRef.current.showAlert();
+      }
+    });
   }
+
+  const alertHeading = 'Log in failed';
+  const alertBody = 'Password or ID are not correct! try again.';
 
   return (
     <div className="Login">
+      <TemporaryAlert
+        body={alertBody}
+        heading={alertHeading}
+        type="warning"
+        ref={alertRef}
+      />
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="email">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>ID</Form.Label>
           <Form.Control
             autoFocus
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="number"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
           />
         </Form.Group>
         <Form.Group size="lg" controlId="password">
@@ -64,8 +83,8 @@ export default function Login() {
   );
 }
 const User = {
-  id: "315798504",
-  type: "teacher",
-  fname: "Bshara",
-  lname: "Zahran"
+  id: '315798504',
+  type: 'teacher',
+  fname: 'Bshara',
+  lname: 'Zahran',
 };
