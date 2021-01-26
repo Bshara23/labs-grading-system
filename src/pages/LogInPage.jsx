@@ -8,6 +8,7 @@ import {
   setHomeWorkActive,
   setHomeWorksActive,
   setIsAddCourseHidden,
+  setHideSubmissionDetails,
 } from '../data/Global';
 import {useHistory} from 'react-router-dom';
 import {setCoursesActive} from '../data/Global';
@@ -23,6 +24,8 @@ export default function Login() {
     dispatch(setHomeWorkActive(true));
     dispatch(setHomeWorksActive(true));
     dispatch(setIsAddCourseHidden(true));
+    dispatch(setHideSubmissionDetails(true));
+
   }, []);
 
   const [id, setId] = useState('');

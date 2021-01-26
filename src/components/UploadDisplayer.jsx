@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import FilesList from './FilesList';
 import UploadFile from './UploadFile';
 
-export default function UploadDisplayer({fkValue, fk, table, allowUpload}) {
+export default function UploadDisplayer({fkValue, fk, table, allowUpload, allowDelete=false}) {
   const [fileUploadedAt, setFileUploadedAt] = useState(null);
   return (
     <div className="upload-displayed-container">
@@ -21,6 +21,7 @@ export default function UploadDisplayer({fkValue, fk, table, allowUpload}) {
         fk={fk}
         table={table}
         fileUploadedAt={fileUploadedAt}
+        allowDelete={allowDelete}
       />
     </div>
   );

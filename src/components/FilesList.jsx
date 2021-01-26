@@ -3,7 +3,13 @@ import {Modal, Button} from 'react-bootstrap';
 import {getFiles, downloadFile, deleteFile} from '../API/API';
 import {toDateTimeString} from '../Util/TimeUtil';
 
-const FilesList = ({fkValue, fk, table, fileUploadedAt}) => {
+const FilesList = ({
+  fkValue,
+  fk,
+  table,
+  fileUploadedAt,
+  allowDelete = false,
+}) => {
   const [filesList, setFilesList] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
   const getFilesList = async () => {
@@ -38,12 +44,11 @@ const FilesList = ({fkValue, fk, table, fileUploadedAt}) => {
   };
 
   const onDeleteFileConfirmed = () => {
-    console.log("delete", fileToDelete);
+    console.log('delete', fileToDelete);
     deleteFile(fileToDelete.id, fileToDelete.table);
     handleClose();
-    setFilesList(filesList.filter(x => x.id != fileToDelete.id))
+    setFilesList(filesList.filter((x) => x.id != fileToDelete.id));
     setFileToDelete(null);
-
   };
 
   return (
@@ -69,7 +74,7 @@ const FilesList = ({fkValue, fk, table, fileUploadedAt}) => {
             <th>File Name</th>
             <th>Uploaded At</th>
             <th>Download File</th>
-            <th>Delete File</th>
+            {allowDelete && <th>Delete File</th>}
           </tr>
         </thead>
         <tbody>
@@ -90,19 +95,21 @@ const FilesList = ({fkValue, fk, table, fileUploadedAt}) => {
                     Download
                   </a>
                 </td>
-                <td>
-                  <a
-                    className="file-download"
-                    onClick={() => deleteFilePrompt(id, table)}
-                  >
-                    Delete
-                  </a>
-                </td>
+                {allowDelete && (
+                  <td>
+                    <a
+                      className="file-download"
+                      onClick={() => deleteFilePrompt(id, table)}
+                    >
+                      Delete
+                    </a>
+                  </td>
+                )}
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={4} style={{fontWeight: '400'}}>
+              <td colSpan={allowDelete ? 4 : 3} style={{fontWeight: '400'}}>
                 No files found. Please add files.
               </td>
             </tr>

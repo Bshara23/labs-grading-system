@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {Button, Container, Form} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
-import {addHomework} from '../API/API';
+import {addHomework, addSubmission, getAllUsersInCourse} from '../API/API';
 import {currentCourse} from '../data/Global';
 import DateTimePicker from './DateTimePicker';
 import TemporaryAlert from './TemporaryAlert';
@@ -50,6 +50,16 @@ export default function HomeworkForm() {
           setTitle('');
           setDescription('');
           setDeadline(new Date());
+
+          // get all students in course
+          getAllUsersInCourse(cid).then((r1) => {
+            r1.data.forEach((p) => {
+              if (p.type == 'student') {
+                addSubmission(p.id, res.data);
+                console.log('student id ', res.data);
+              }
+            });
+          });
         });
       } else {
         setAlertType('warning');

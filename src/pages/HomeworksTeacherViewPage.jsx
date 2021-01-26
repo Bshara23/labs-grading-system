@@ -150,6 +150,7 @@ export default function HomeworkTeacherView() {
         fk="homework_id"
         table="homework_file"
         allowUpload={user.type == 'teacher'}
+        allowDelete={user.type == 'teacher'}
       />
       <h3 className="p-3 mb-3">Students' Submissions</h3>
       <Container>

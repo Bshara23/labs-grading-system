@@ -17,6 +17,8 @@ import {
   setIsAddCourseHidden,
   setCurrentCourseTitle,
   setCurrentCourse,
+  setCurrentSubmission,
+  setCurrentSubmissionStudentId,
 } from '../data/Global';
 
 import {useHistory} from 'react-router-dom';
@@ -62,6 +64,7 @@ export default function Course() {
       });
 
       setCoursesStudentHomeWorks(sortedRes);
+      console.log("submissions", sortedRes);
     });
   }, []);
 
@@ -73,29 +76,23 @@ export default function Course() {
     dispatch(setIsAddCourseHidden(true));
   }, []);
 
-  const onClickStudent = (MyHomeWork) => {
-    let StudentDetails;
-    getStudentDetails(MyHomeWork.studentId).then((res) => {
-      StudentDetails = res.data;
-      let studenthomework = {
-        id: MyHomeWork.id,
-        studentId: MyHomeWork.studentId,
-        description: MyHomeWork.description,
-        title: MyHomeWork.title,
-        HomeWorkId: MyHomeWork.homeworkId,
-        Name: StudentDetails[0].fName + ' ' + StudentDetails[0].lName,
-        updatedAt: MyHomeWork.updatedAt,
-        status: MyHomeWork.status,
-        grade: MyHomeWork.grade,
-        deadline: MyHomeWork.deadline,
-        graderId: MyHomeWork.graderId,
-        graderfullname: MyHomeWork.graderFullName,
+  const onClickStudent = (stuSub) => {
+    getStudentDetails(stuSub.studentid).then((res) => {
+      // dispatch(setCurrStuTeachViewActive(res.data));
+      const data = {
+        homeworkTitle: stuSub.title,
+        student: res.data[0],
+        submission: stuSub,
       };
-      history.push('/HomeworkStudentView');
-      dispatch(setCurrentHomeworkStudent(studenthomework));
+      dispatch(setCurrentSubmission(data));
+      dispatch(setHideSubmissionDetails(false));
+      dispatch(setCurrentSubmissionStudentId(stuSub.title));
       dispatch(setCourseActive(false));
+
+      history.push('/SubmissionTeacherView');
     });
   };
+ 
   const onClickTeacher = (HomeWork) => {
     dispatch(setCurrentHomeworkTeacher(HomeWork));
     dispatch(setCourseActive(false));
@@ -156,6 +153,7 @@ export default function Course() {
           fk="course_id"
           table="course_file"
           allowUpload={user.type == 'teacher'}
+          allowDelete={user.type == 'teacher'}
         />
       )}
       <Container>
@@ -191,7 +189,7 @@ export default function Course() {
             );
           })}
 
-        {user.type == 'student' && CourseTeacherHomeWorks.length == 0 && (
+        {user.type == 'student' && CourseStudentHomeWorks.length == 0 && (
           <h5>No homeworks yet!</h5>
         )}
         {user.type == 'student' &&

@@ -6,9 +6,8 @@ import {intifiy, toDateTimeString} from '../Util/TimeUtil';
 import Table from 'react-bootstrap/Table';
 import {Form, Button} from 'react-bootstrap';
 import {getComments, sendComment} from '../API/API';
-import {
-  currentUser,
-} from '../data/Global';
+import {currentUser} from '../data/Global';
+import UploadDisplayer from '../components/UploadDisplayer';
 export default function SubmissionTeacherView() {
   const submission = useSelector(currentSubmission);
 
@@ -25,6 +24,8 @@ export default function SubmissionTeacherView() {
 }
 
 const SubmissionDetails = ({sub, stu}) => {
+  const user = useSelector(currentUser);
+
   return (
     <div className="submission-details-table">
       <Table responsive>
@@ -39,7 +40,7 @@ const SubmissionDetails = ({sub, stu}) => {
           </tr>
           <tr>
             <td>Submitted At:</td>
-            <td>{toDateTimeString(sub.createdat)}</td>
+            <td>{toDateTimeString(sub.created_at)}</td>
           </tr>
 
           <tr>
@@ -60,10 +61,18 @@ const SubmissionDetails = ({sub, stu}) => {
           </tr>
         </tbody>
       </Table>
+      {user && (
+        <UploadDisplayer
+          allowDelete={user.type == 'student'}
+          allowUpload={user.type == 'student'}
+          fkValue={sub.id}
+          fk="submissionid"
+          table="submissionfile"
+        />
+      )}
     </div>
   );
 };
-
 
 const Comments = ({submissionId, stuId}) => {
   const [str, setStr] = useState('');
@@ -90,6 +99,7 @@ const Comments = ({submissionId, stuId}) => {
         content
       ).then((res) => {
         loadComments(submissionId);
+        setStr('')
       });
     }
   };
@@ -114,7 +124,12 @@ const Comments = ({submissionId, stuId}) => {
       <Form onSubmit={onSubmit}>
         <Form.Group controlId="formAddComment">
           <Form.Label>Add a comment</Form.Label>
-          <Form.Control autoComplete="off" type="text" placeholder="Comment" onChange={onChange} />
+          <Form.Control
+            autoComplete="off"
+            type="text"
+            placeholder="Comment"
+            onChange={onChange}
+          />
         </Form.Group>
         <Button variant="primary" type="submit" className="float-right">
           Send
