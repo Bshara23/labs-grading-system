@@ -27,6 +27,7 @@ import EditableParagraph from '../components/EditableParagraph';
 import EditableDateTime from '../components/EditableDateTime';
 import {MdDeleteForever} from 'react-icons/md';
 import CustomerDialog from '../components/CustomerDialog';
+import {Button, Modal} from 'react-bootstrap';
 
 export default function HomeworkTeacherView() {
   const Homework = useSelector(currentHomeworkTeacher);
@@ -101,29 +102,35 @@ export default function HomeworkTeacherView() {
     dispatch(setCurrentHomeworkTeacher(homeworkCopy));
     dispatch(setCurrentHomeworkTitle(homeworkCopy.title));
   };
-  const dialogRef = useRef();
   const onDeleteClick = () => {
-    dialogRef.current.showDialog();
+    setShow(true);
   };
   const onHomeworkDeleteConfirmed = () => {
     deleteHomework(Homework.id).then((res) => {
-      console.log('delete homework with id', Homework.id);
       history.goBack();
     });
   };
   const onHomeworkDeleteDeclined = () => {
-    dialogRef.current.closeDialog();
+    handleClose();
   };
-
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
   return (
     <>
-      <CustomerDialog
-        ref={dialogRef}
-        title="Delete Homework"
-        body="Are you sure you want to delete this homework?"
-        onYes={onHomeworkDeleteConfirmed}
-        onNo={onHomeworkDeleteDeclined}
-      />
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Homework</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this homework?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={onHomeworkDeleteDeclined}>
+            Close
+          </Button>
+          <Button variant="danger" onClick={onHomeworkDeleteConfirmed}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <MdDeleteForever
         className="editIcon float-right"
         onClick={onDeleteClick}
