@@ -34,6 +34,27 @@ export const addHomework = async (cid, title, description, deadline) => {
     console.error(error);
   }
 };
+export const updateSubmissionGrade = async (
+  id,
+  studentid,
+  homeworkid,
+  grade
+) => {
+  try {
+    return await axios
+      .put(API_URL + `/submission`, {
+        id,
+        studentid,
+        homeworkid,
+        grade,
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const updateHomework = async (id, title, description, deadline) => {
   try {
     return await axios
@@ -127,6 +148,7 @@ export const getAllUsersInCourse = async (courseId) => {
     console.error(error);
   }
 };
+
 export const getAllUsers = async () => {
   try {
     return await axios.get(API_URL + `/getAllUsers`).then((res) => {

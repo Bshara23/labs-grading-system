@@ -5,11 +5,13 @@ import Container from 'react-bootstrap/Container';
 import {intifiy, toDateTimeString} from '../Util/TimeUtil';
 import Table from 'react-bootstrap/Table';
 import {Form, Button} from 'react-bootstrap';
-import {getComments, sendComment} from '../API/API';
+import {getComments, sendComment, updateSubmissionGrade} from '../API/API';
 import {currentUser} from '../data/Global';
 import UploadDisplayer from '../components/UploadDisplayer';
+import EditableNumber from '../components/EditableNumber';
 export default function SubmissionTeacherView() {
   const submission = useSelector(currentSubmission);
+  const user = useSelector(currentUser);
 
   useEffect(() => {
     console.log('submission', submission);
@@ -18,6 +20,21 @@ export default function SubmissionTeacherView() {
   return (
     <Container>
       <h1 className=" p-3 mb-3">{submission.homeworkTitle}</h1>
+      <h5 className=" p-3 mb-3">{submission.submission.description}</h5>
+      <h5 className=" p-3 mb-3">{`Deadline: ${toDateTimeString(
+        submission.submission.deadline
+      )}`}</h5>
+
+      {user.type == 'student' && (
+        <UploadDisplayer
+          allowDelete={false}
+          allowUpload={false}
+          fkValue={submission.submission.homeworkid}
+          fk="homework_id"
+          table="homework_file"
+        />
+      )}
+      {user.type == 'student' && <h5>Your Submission:</h5>}
       <SubmissionDetails sub={submission.submission} stu={submission.student} />
     </Container>
   );
@@ -25,7 +42,13 @@ export default function SubmissionTeacherView() {
 
 const SubmissionDetails = ({sub, stu}) => {
   const user = useSelector(currentUser);
-
+  const [grade, setGrade] = useState(sub.grade == -1 ? 'set grade' : sub.grade);
+  const onEditGrade = (value) => {
+    if (value >= 0 && value <= 100) {
+      setGrade(value);
+      updateSubmissionGrade(sub.id, stu.id, sub.homeworkid, value);
+    }
+  };
   return (
     <div className="submission-details-table">
       <Table responsive>
@@ -45,7 +68,14 @@ const SubmissionDetails = ({sub, stu}) => {
 
           <tr>
             <td>Grade:</td>
-            <td>{sub.grade >= 0 ? sub.grade : '-'}</td>
+            {user.type == 'teacher' && (
+              <td>
+                <EditableNumber value={grade} onEditSuccess={onEditGrade} />
+              </td>
+            )}
+            {user.type == 'student' && (
+              <td>{sub.grade >= 0 ? sub.grade : '-'}</td>
+            )}
           </tr>
 
           <tr>
@@ -99,7 +129,7 @@ const Comments = ({submissionId, stuId}) => {
         content
       ).then((res) => {
         loadComments(submissionId);
-        setStr('')
+        setStr('');
       });
     }
   };
