@@ -19,6 +19,7 @@ import UploadDisplayer from '../components/UploadDisplayer';
 import {toDateTimeString} from '../Util/TimeUtil';
 import SubmissionCell from '../components/SubmissionCell';
 import EditableParagraph from '../components/EditableParagraph';
+import EditableDateTime from '../components/EditableDateTime'
 export default function HomeworkTeacherView() {
   const Homework = useSelector(currentHomeworkTeacher);
   const history = useHistory();
@@ -69,18 +70,19 @@ export default function HomeworkTeacherView() {
     updateHomework(Homework.id, Homework.title, value, Homework.deadline);
   };
 
-  // const onEditDeadlineSuccess = (value) => {
-  //   setDeadline(value)
-  //   const deadlineStr = deadline.toISOString();
-  //   // update in server
-  //   updateHomeworkLocal(Homework.title, Homework.description, deadlineStr);
-  //   updateHomework(
-  //     Homework.id,
-  //     Homework.title,
-  //     Homework.description,
-  //     deadlineStr
-  //   );
-  // };
+  const onEditDeadlineSuccess = (value) => {
+    setDeadline(toDateTimeString(value))
+    console.log("new deadline:", value);
+    const deadlineStr = value;
+    // update in server
+    updateHomeworkLocal(Homework.title, Homework.description, deadlineStr);
+    updateHomework(
+      Homework.id,
+      Homework.title,
+      Homework.description,
+      deadlineStr
+    );
+  };
 
   const updateHomeworkLocal = (title, description, deadline) => {
     let homeworkCopy = JSON.parse(JSON.stringify(Homework));
@@ -99,11 +101,11 @@ export default function HomeworkTeacherView() {
         value={Homework.title}
         onEditSuccess={onEditTitleSuccess}
       />
-      {/* <EditableDateTime
+      <EditableDateTime
         headingClass="h4 p-3 mb-3"
-        value={`Deadline: ${toDateTimeString(Homework.deadline)}`}
+        value={Homework.deadline}
         onEditSuccess={onEditDeadlineSuccess}
-      /> */}
+      />
       <EditableParagraph
         headingClass="h4 p-3 mb-3"
         value={Homework.description}
