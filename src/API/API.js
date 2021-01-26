@@ -48,6 +48,16 @@ export const updateCourse = async (id, title, description) => {
     console.error(error);
   }
 };
+
+export const deleteHomework = async (id) => {
+  try {
+    return await axios.delete(API_URL + `/homework/${id}`).then((res) => {
+      return res;
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const logIn = async (id, password) => {
   try {
     return await axios.get(API_URL + `/login/${id}/${password}`).then((res) => {
