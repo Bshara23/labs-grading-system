@@ -7,15 +7,18 @@ import {
   setCurrentSubmission,
   setHideSubmissionDetails,
   setCurrentSubmissionStudentId,
+  setCurrentHomeworkTeacher,
+  setCurrentHomeworkTitle,
 } from '../data/Global';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {getStudentsHomeWorks, getStudentDetails} from '../API/API';
+import {getStudentsHomeWorks, getStudentDetails, updateHomework} from '../API/API';
 import Container from 'react-bootstrap/Container';
 import {useHistory} from 'react-router-dom';
 import UploadDisplayer from '../components/UploadDisplayer';
 import {toDateTimeString} from '../Util/TimeUtil';
 import SubmissionCell from '../components/SubmissionCell';
+import EditableParagraph from '../components/EditableParagraph';
 export default function HomeworkTeacherView() {
   const Homework = useSelector(currentHomeworkTeacher);
   const history = useHistory();
@@ -23,6 +26,7 @@ export default function HomeworkTeacherView() {
 
   const dispatch = useDispatch();
   const [StudentsHomeWorks, setStudentHomeWorks] = useState([]);
+  const [deadline, setDeadline] = useState();
 
   useEffect(() => {
     getStudentsHomeWorks(Homework.id).then((res) => {
@@ -47,17 +51,65 @@ export default function HomeworkTeacherView() {
       };
       dispatch(setCurrentSubmission(data));
       dispatch(setHideSubmissionDetails(false));
-      dispatch(setCurrentSubmissionStudentId(stuSub.studentid))
+      dispatch(setCurrentSubmissionStudentId(stuSub.studentid));
       history.push('/SubmissionTeacherView');
     });
   };
+
+  const onEditTitleSuccess = (value) => {
+    // update in server
+    console.log("updating title", value);
+    updateHomeworkLocal(value, Homework.description, Homework.deadline);
+    updateHomework(Homework.id, value, Homework.description, Homework.deadline);
+  };
+
+  const onEditDescriptionSuccess = (value) => {
+    // update in server
+    updateHomeworkLocal(Homework.title, value, Homework.deadline);
+    updateHomework(Homework.id, Homework.title, value, Homework.deadline);
+  };
+
+  // const onEditDeadlineSuccess = (value) => {
+  //   setDeadline(value)
+  //   const deadlineStr = deadline.toISOString();
+  //   // update in server
+  //   updateHomeworkLocal(Homework.title, Homework.description, deadlineStr);
+  //   updateHomework(
+  //     Homework.id,
+  //     Homework.title,
+  //     Homework.description,
+  //     deadlineStr
+  //   );
+  // };
+
+  const updateHomeworkLocal = (title, description, deadline) => {
+    let homeworkCopy = JSON.parse(JSON.stringify(Homework));
+    homeworkCopy.title = title;
+    homeworkCopy.description = description;
+    //homeworkCopy.deadline = deadline.toISOString();
+
+    dispatch(setCurrentHomeworkTeacher(homeworkCopy));
+    dispatch(setCurrentHomeworkTitle(homeworkCopy.title));
+  };
+
   return (
     <>
-      <h1 className=" p-3 mb-3">{Homework.title}</h1>
-      <h4 className=" p-3 mb-3">
-        DeadLine: {toDateTimeString(Homework.deadline)}
-      </h4>
-      <h4 className=" p-3 mb-3">{Homework.description}</h4>
+      <EditableParagraph
+        headingClass="h1 p-3 mb-3"
+        value={Homework.title}
+        onEditSuccess={onEditTitleSuccess}
+      />
+      {/* <EditableDateTime
+        headingClass="h4 p-3 mb-3"
+        value={`Deadline: ${toDateTimeString(Homework.deadline)}`}
+        onEditSuccess={onEditDeadlineSuccess}
+      /> */}
+      <EditableParagraph
+        headingClass="h4 p-3 mb-3"
+        value={Homework.description}
+        onEditSuccess={onEditDescriptionSuccess}
+      />
+
       <UploadDisplayer
         fkValue={Homework.id}
         fk="homework_id"
@@ -68,7 +120,8 @@ export default function HomeworkTeacherView() {
 
       <Container>
         {/* Stack the columns on mobile by making one full-width and the other half-width */}
-        <Container className="submissions-box-teacher-view">
+        <Container className="submissions-box-teacher-view mb-5">
+          {StudentsHomeWorks.length == 0 && <h4>No submissions yet!</h4>}
           {StudentsHomeWorks.map((submission, i) => {
             return (
               <SubmissionCell

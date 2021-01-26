@@ -19,7 +19,21 @@ export const addHomework = async (cid, title, description, deadline) => {
     console.error(error);
   }
 };
-
+export const updateHomework = async (id, title, description, deadline) => {
+  try {
+    return await axios
+      .put(API_URL + `/homework/${id}`, {
+        title,
+        description,
+        deadline,
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const updateCourse = async (id, title, description) => {
   try {
     return await axios
