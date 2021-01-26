@@ -10,9 +10,11 @@ import {
   currentUser,
   setCurrentCourseTitle,
   setHideSubmissionDetails,
+  setIsAddCourseHidden,
 } from '../data/Global';
 import {useHistory} from 'react-router-dom';
 import {getUserCourses} from '../API/API';
+import {Button} from 'react-bootstrap';
 const axios = require('axios');
 
 export default function MainPage() {
@@ -23,32 +25,34 @@ export default function MainPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getUserCourses(user.id).then((res1) => {
-      const rawData = res1.data;
+    if (user) {
+      getUserCourses(user.id).then((res1) => {
+        const rawData = res1.data;
 
-      let d = new Map();
-      rawData.forEach((r) => {
-        if (!d.has(r.cid)) {
-          d.set(r.cid, []);
-        }
-        d.get(r.cid).push(r);
+        let d = new Map();
+        rawData.forEach((r) => {
+          if (!d.has(r.cid)) {
+            d.set(r.cid, []);
+          }
+          d.get(r.cid).push(r);
+        });
+
+        const crses = [];
+        d.forEach((v, k) => {
+          crses.push(v);
+        });
+
+        setCoursesData(crses);
+        setIsLoading(false);
       });
 
-      const crses = [];
-      d.forEach((v, k) => {
-        crses.push(v);
-      });
-
-      setCoursesData(crses);
-      setIsLoading(false);
-    });
-  }, []);
-
-  useEffect(() => {
-    dispatch(setCourseActive(true));
-    dispatch(setHomeWorkActive(true));
-    dispatch(setHideSubmissionDetails(true));
-  }, []);
+      dispatch(setCourseActive(true));
+      dispatch(setHomeWorkActive(true));
+      dispatch(setHideSubmissionDetails(true));
+      dispatch(setIsAddCourseHidden(true));
+      console.log('user:', user);
+    }
+  }, [user]);
 
   const onCourseClick = (course) => {
     dispatch(setCurrentCourse(course));
@@ -56,8 +60,21 @@ export default function MainPage() {
 
     history.push('/Course');
   };
+
+  const onAddCourseClicked = () => {
+    dispatch(setIsAddCourseHidden(false));
+    history.push('/CourseForm');
+  };
   return (
     <>
+      {user && user.type == 'teacher' && (
+        <div className="pb-5">
+          <Button className="float-right mb-2" onClick={onAddCourseClicked}>
+            Add Course
+          </Button>
+        </div>
+      )}
+
       <Container>
         {!isLoading ? (
           coursesData &&

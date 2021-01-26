@@ -82,9 +82,3 @@ export default function Login() {
     </div>
   );
 }
-const User = {
-  id: '315798504',
-  type: 'teacher',
-  fname: 'Bshara',
-  lname: 'Zahran',
-};

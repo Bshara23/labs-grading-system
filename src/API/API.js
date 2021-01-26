@@ -3,9 +3,79 @@ import download from 'downloadjs';
 const axios = require('axios');
 
 export const API_URL = 'http://localhost:5000';
-export const UpdateGrade = async (SubmissionId, Grade) => {
+export const updateCourse = async (id, title, description) => {
   try {
-    return await axios.put(API_URL + `/Grade/${SubmissionId}/${Grade}`);
+    return await axios
+      .put(API_URL + `/course/${id}`, {
+        title,
+        description,
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const logIn = async (id, password) => {
+  try {
+    return await axios.get(API_URL + `/login/${id}/${password}`).then((res) => {
+      return res;
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const deleteFile = async (id, table) => {
+  try {
+    return await axios.delete(API_URL + `/file/${id}/${table}`).then((res) => {
+      return res;
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const addCourse = async (title, description) => {
+  try {
+    return await axios
+      .post(API_URL + `/AddCourse`, {
+        title,
+        description,
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const addParticipantToCourse = async (courseid, personid) => {
+  try {
+    return await axios
+      .post(API_URL + `/AddCourseParticipant/${courseid}/${personid}`)
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getAllUsersInCourse = async (courseId) => {
+  try {
+    return await axios
+      .get(API_URL + `/getAllUsersInCourse/${courseId}`)
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getAllUsers = async () => {
+  try {
+    return await axios.get(API_URL + `/getAllUsers`).then((res) => {
+      return res;
+    });
   } catch (error) {
     console.error(error);
   }

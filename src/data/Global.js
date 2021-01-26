@@ -7,15 +7,13 @@ export const global = createSlice({
     ShowCourses: true,
     ShowCourse: true,
     ShowHomeWorks: true,
+    isAddCourseHidden: true,
     ShowHomeWork: true,
     hideSubmissionDetails: true,
     currentHomeworkTitle: 'Homework',
     currentSubmissionStudentId: 'na',
     currentSubmission: null,
-    currentUser: {
-      id: '316546092',
-      type: 'teacher',
-    },
+    currentUser: null,
     currentCourse: {
       title: 'Algorithms222',
       teacherName: 'Alex',
@@ -130,10 +128,14 @@ export const global = createSlice({
     setCurrentSubmissionStudentId: (state, action) => {
       state.currentSubmissionStudentId = action.payload;
     },
+    setIsAddCourseHidden: (state, action) => {
+      state.isAddCourseHidden = action.payload;
+    },
   },
 });
 
 export const {
+  setIsAddCourseHidden,
   setCurrentCourse,
   setCourseActive,
   setCoursesActive,
@@ -182,4 +184,5 @@ export const hideSubmissionDetails = (state) => state.hideSubmissionDetails;
 export const currentCourseTitle = (state) => state.currentCourseTitle;
 export const currentSubmissionStudentId = (state) =>
   state.currentSubmissionStudentId;
+export const isAddCourseHidden = (state) => state.isAddCourseHidden;
 export default global.reducer;
