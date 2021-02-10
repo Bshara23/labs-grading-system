@@ -44,7 +44,7 @@ const SubmissionDetails = ({sub, stu}) => {
   const user = useSelector(currentUser);
   const [grade, setGrade] = useState(sub.grade == -1 ? 'set grade' : sub.grade);
   const onEditGrade = (value) => {
-    if (value >= 0 && value <= 100) {
+    if (value != "" && value >= 1 && value <= 100) {
       setGrade(value);
       updateSubmissionGrade(sub.id, stu.id, sub.homeworkid, value);
     }
