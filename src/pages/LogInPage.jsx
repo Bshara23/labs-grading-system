@@ -25,7 +25,6 @@ export default function Login() {
     dispatch(setHomeWorksActive(true));
     dispatch(setIsAddCourseHidden(true));
     dispatch(setHideSubmissionDetails(true));
-
   }, []);
 
   const [id, setId] = useState('');
@@ -38,11 +37,16 @@ export default function Login() {
   function handleSubmit(e) {
     e.preventDefault();
     logIn(id, password).then((res) => {
-      if (res.data.length != 0) {
-
-        history.push('/Courses');
-        dispatch(setCurrentUser(res.data[0]));
-        dispatch(setCoursesActive(false));
+      if (res && res.data && res.data.length != 0) {
+  
+        if (res.data[0].fname == 'Admin' && res.data[0].lname == 'Admin') {
+          history.push('/AdminPage');
+          dispatch(setCurrentUser(res.data[0]));
+        } else {
+          history.push('/Courses');
+          dispatch(setCurrentUser(res.data[0]));
+          dispatch(setCoursesActive(false));
+        }
       } else {
         alertRef.current.showAlert();
       }

@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 export const global = createSlice({
   name: 'global',
   initialState: {
+    isAddHomeworkHidden: true,
     ShowLogIn: false,
     ShowCourses: true,
     ShowCourse: true,
@@ -131,6 +132,9 @@ export const global = createSlice({
     setIsAddCourseHidden: (state, action) => {
       state.isAddCourseHidden = action.payload;
     },
+    setIsAddHomeworkHidden: (state, action) => {
+      state.isAddHomeworkHidden = action.payload;
+    },
   },
 });
 
@@ -153,14 +157,8 @@ export const {
   setHideSubmissionDetails,
   setCurrentCourseTitle,
   setCurrentSubmissionStudentId,
+  setIsAddHomeworkHidden,
 } = global.actions;
-
-// TODO
-export const setCurrentCourseAsync = (course) => (dispatch) => {
-  setTimeout(() => {
-    dispatch(setCurrentCourse(course));
-  }, 1000);
-};
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -185,4 +183,5 @@ export const currentCourseTitle = (state) => state.currentCourseTitle;
 export const currentSubmissionStudentId = (state) =>
   state.currentSubmissionStudentId;
 export const isAddCourseHidden = (state) => state.isAddCourseHidden;
+export const isAddHomeworkHidden = (state) => state.isAddHomeworkHidden;
 export default global.reducer;

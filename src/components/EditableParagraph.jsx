@@ -6,6 +6,7 @@ export default function EditableParagraph({
   value,
   headingClass,
   onEditSuccess = () => {},
+  extraText,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState();
@@ -29,7 +30,7 @@ export default function EditableParagraph({
   return (
     <>
       {isEditing ? (
-        <div className="d-flex p-4 ">
+        <div className="d-flex pb-4 ">
           <MdCheck
             className="editIcon"
             onClick={onCheckClick}
@@ -39,7 +40,8 @@ export default function EditableParagraph({
           <FormControl type="text" onChange={onChange} value={text} />
         </div>
       ) : (
-        <p className={`d-flex p-4 ${headingClass}`}>
+        <p className={`d-flex pb-4 ${headingClass}`}>
+          {extraText}
           <MdEdit
             className="editIcon"
             size="1.3em"

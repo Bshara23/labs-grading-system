@@ -11,6 +11,7 @@ import {
   setCurrentCourseTitle,
   setHideSubmissionDetails,
   setIsAddCourseHidden,
+  setIsAddHomeworkHidden,
 } from '../data/Global';
 import {useHistory} from 'react-router-dom';
 import {getUserCourses} from '../API/API';
@@ -45,6 +46,7 @@ export default function MainPage() {
         setCoursesData(crses);
         setIsLoading(false);
       });
+      dispatch(setIsAddHomeworkHidden(false));
 
       dispatch(setCourseActive(true));
       dispatch(setHomeWorkActive(true));
@@ -67,6 +69,8 @@ export default function MainPage() {
   };
   return (
     <>
+      <h1 className="centerTitle">Courses</h1>
+
       {user && user.type == 'teacher' && (
         <div className="pb-5">
           <Button className="float-right mb-2" onClick={onAddCourseClicked}>

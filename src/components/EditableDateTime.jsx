@@ -1,12 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {FormControl} from 'react-bootstrap';
 import {MdEdit, MdCheck} from 'react-icons/md';
-import { toDateTimeString } from '../Util/TimeUtil';
-import DateTimePicker from './DateTimePicker'
+import {toDateTimeString} from '../Util/TimeUtil';
+import DateTimePicker from './DateTimePicker';
 export default function EditableTimeDate({
   value,
   headingClass,
   onEditSuccess = () => {},
+  extraText,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState();
@@ -31,17 +32,21 @@ export default function EditableTimeDate({
   return (
     <>
       {isEditing ? (
-        <div className="d-flex p-4 ">
+        <div className="d-flex pb-4 ">
           <MdCheck
             className="editIcon"
             onClick={onCheckClick}
             color="#0e7bf1"
             size="2em"
           />{' '}
-          <DateTimePicker onChange={handleDateChange} value={new Date(deadline)} />
+          <DateTimePicker
+            onChange={handleDateChange}
+            value={new Date(deadline)}
+          />
         </div>
       ) : (
-        <p className={`d-flex p-4 ${headingClass}`}>
+        <p className={`d-flex pb-4 ${headingClass}`}>
+          {extraText}
           <MdEdit
             className="editIcon"
             size="1.3em"

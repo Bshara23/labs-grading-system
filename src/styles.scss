@@ -7,9 +7,22 @@
 body {
   letter-spacing: 1px;
   padding: 10px;
+  
+  margin-left: 7%;
+  margin-right: 7%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.centerTitle {
   text-align: center;
   font-size: 30px;
 }
@@ -181,6 +194,7 @@ h1,
   }
 }
 
+
 ////// Courses
 
 .CourseTitle {
@@ -278,9 +292,11 @@ h1,
 }
 
 .upload-displayed-container {
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-bottom: 10%;
+  // margin-left: 10%;
+  // margin-right: 10%;
+  margin-bottom: 5%;
+  padding-bottom: 5%;
+  //border-bottom: 2px solid #ccc;
 }
 
 .submissions-box-teacher-view {
@@ -303,21 +319,6 @@ h1,
 
 .basic-title {
   margin-left: 20px;
-}
-
-body {
-  margin-left: 10%;
-  margin-right: 10%;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
 
 .submission-details-table {
@@ -394,6 +395,11 @@ code {
   cursor: default;
 }
 
-.editIcon{
+.editIcon {
   cursor: pointer;
+}
+
+.deleteBtnText {
+  font-size: '1.2em';
+  color: 'red';
 }

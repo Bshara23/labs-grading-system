@@ -1,13 +1,19 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {Button, Container, Form} from 'react-bootstrap';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addHomework, addSubmission, getAllUsersInCourse} from '../API/API';
-import {currentCourse} from '../data/Global';
+import {currentCourse, setIsAddHomeworkHidden} from '../data/Global';
 import DateTimePicker from './DateTimePicker';
 import TemporaryAlert from './TemporaryAlert';
 
 export default function HomeworkForm() {
   const course = useSelector(currentCourse);
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    dispatch(setIsAddHomeworkHidden(true));
+  }, [])
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');

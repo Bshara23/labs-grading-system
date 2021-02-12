@@ -19,9 +19,11 @@ export default function SubmissionTeacherView() {
 
   return (
     <Container>
-      <h1 className=" p-3 mb-3">{submission.homeworkTitle}</h1>
-      <h5 className=" p-3 mb-3">{submission.submission.description}</h5>
-      <h5 className=" p-3 mb-3">{`Deadline: ${toDateTimeString(
+      <h1 className="centerTitle">Submission Page</h1>
+
+      <h3 className="pb-3 mb-3">Title: {submission.homeworkTitle}</h3>
+      <h5 className="pb-3 mb-3">Description: {submission.submission.description}</h5>
+      <h5 className="pb-3 mb-3">{`Deadline: ${toDateTimeString(
         submission.submission.deadline
       )}`}</h5>
 
@@ -44,7 +46,7 @@ const SubmissionDetails = ({sub, stu}) => {
   const user = useSelector(currentUser);
   const [grade, setGrade] = useState(sub.grade == -1 ? 'set grade' : sub.grade);
   const onEditGrade = (value) => {
-    if (value != "" && value >= 1 && value <= 100) {
+    if (value != '' && value >= 1 && value <= 100) {
       setGrade(value);
       updateSubmissionGrade(sub.id, stu.id, sub.homeworkid, value);
     }
@@ -98,6 +100,7 @@ const SubmissionDetails = ({sub, stu}) => {
           fkValue={sub.id}
           fk="submissionid"
           table="submissionfile"
+          style="p-3 border-top"
         />
       )}
     </div>

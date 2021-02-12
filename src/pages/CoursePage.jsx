@@ -19,6 +19,7 @@ import {
   setCurrentCourse,
   setCurrentSubmission,
   setCurrentSubmissionStudentId,
+  setIsAddHomeworkHidden,
 } from '../data/Global';
 
 import {useHistory} from 'react-router-dom';
@@ -32,7 +33,7 @@ import UploadDisplayer from '../components/UploadDisplayer';
 import {MdEdit, MdCheck} from 'react-icons/md';
 import {Button, FormControl} from 'react-bootstrap';
 import EditableParagraph from '../components/EditableParagraph';
-import { toDateTimeString } from '../Util/TimeUtil';
+import {toDateTimeString} from '../Util/TimeUtil';
 
 export default function Course() {
   const course = useSelector(currentCourse);
@@ -64,7 +65,7 @@ export default function Course() {
       });
 
       setCoursesStudentHomeWorks(sortedRes);
-      console.log("submissions", sortedRes);
+      console.log('submissions', sortedRes);
     });
   }, []);
 
@@ -74,6 +75,8 @@ export default function Course() {
     dispatch(setHomeWorksActive(true));
     dispatch(setHideSubmissionDetails(true));
     dispatch(setIsAddCourseHidden(true));
+    dispatch(setIsAddHomeworkHidden(false));
+
   }, []);
 
   const onClickStudent = (stuSub) => {
@@ -92,7 +95,7 @@ export default function Course() {
       history.push('/SubmissionTeacherView');
     });
   };
- 
+
   const onClickTeacher = (HomeWork) => {
     dispatch(setCurrentHomeworkTeacher(HomeWork));
     dispatch(setCourseActive(false));
@@ -129,11 +132,14 @@ export default function Course() {
 
   return (
     <>
+      <h1 className="centerTitle">Course Page</h1>
       {user && user.type == 'teacher' ? (
         <EditableParagraph
-          headingClass="h1 text-center"
+          headingClass="h3 text-center"
           value={courseName}
           onEditSuccess={onEditTitleSuccess}
+          extraText={"Title: "}
+
         />
       ) : (
         <h1 className=" p-2">{courseName}</h1>
@@ -143,6 +149,8 @@ export default function Course() {
           headingClass="h5"
           value={courseDescription}
           onEditSuccess={onEditDescriptionSuccess}
+          extraText={"Description: "}
+
         />
       ) : (
         <h5 className=" p-4">{courseDescription}</h5>

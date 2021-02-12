@@ -84,6 +84,24 @@ export const updateCourse = async (id, title, description) => {
     console.error(error);
   }
 };
+export const deleteUser = async (id) => {
+  try {
+    return await axios.delete(API_URL + `/user/${id}`).then((res) => {
+      return res;
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const deleteCourse = async (id) => {
+  try {
+    return await axios.delete(API_URL + `/course/${id}`).then((res) => {
+      return res;
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const deleteHomework = async (id) => {
   try {
@@ -149,6 +167,17 @@ export const getAllUsersInCourse = async (courseId) => {
   }
 };
 
+
+
+export const getAllCourses = async () => {
+  try {
+    return await axios.get(API_URL + `/getAllCourses`).then((res) => {
+      return res;
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const getAllUsers = async () => {
   try {
     return await axios.get(API_URL + `/getAllUsers`).then((res) => {

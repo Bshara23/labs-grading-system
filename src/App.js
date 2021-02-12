@@ -13,7 +13,8 @@ import {
   currentHomeworkTitle,
   currentCourseTitle,
   currentSubmissionStudentId,
-  isAddCourseHidden
+  isAddCourseHidden,
+  isAddHomeworkHidden
 } from './data/Global';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -26,12 +27,15 @@ import HomeworkStudentView from './pages/HomeworkStudentViewPage';
 import SubmissionTeacherView from './pages/SubmissionTeacherView';
 import CourseForm from './components/CourseForm';
 import HomeworkForm from './components/HomeworkForm';
+import AdminPage from './pages/AdminPage';
 
 function App() {
   const Login = useSelector(ShowLogIn);
   const isCoursesHidden = useSelector(ShowCourses);
   const isCourseHidden = useSelector(ShowCourse);
   const isAddCourseHidd = useSelector(isAddCourseHidden)
+  const isAddHomeworkHidd = useSelector(isAddHomeworkHidden)
+
   const isSubmissionDetailsHidden = useSelector(hideSubmissionDetails);
   const isHomeworkHidden = useSelector(ShowHomeWork);
   const currHwTitle = useSelector(currentHomeworkTitle);
@@ -54,7 +58,7 @@ function App() {
           <Breadcrumb.Item href="/CourseForm" hidden={isAddCourseHidd}>
             Add Course
           </Breadcrumb.Item>
-          <Breadcrumb.Item href="/HomeworkForm" hidden={isAddCourseHidd}>
+          <Breadcrumb.Item href="/HomeworkForm" hidden={!isAddHomeworkHidd}>
             Add Homework
           </Breadcrumb.Item>
 
@@ -81,6 +85,9 @@ function App() {
             <Route path="/Course" exact component={Course} />
             <Route path="/CourseForm" exact component={CourseForm} />
             <Route path="/HomeworkForm" exact component={HomeworkForm}/>
+            <Route path="/AdminPage" exact component={AdminPage}/>
+
+       
             <Route
               path="/HomeworksTeacherView"
               exact

@@ -117,6 +117,8 @@ export default function HomeworkTeacherView() {
   const handleClose = () => setShow(false);
   return (
     <>
+      <h1 className="centerTitle">Homework Page</h1>
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Delete Homework</Modal.Title>
@@ -137,20 +139,36 @@ export default function HomeworkTeacherView() {
         color="red"
         size="2em"
       />
+      <span
+        className="float-right"
+        style={{fontSize: '1.2em', color: 'red', cursor: 'pointer'}}
+        onClick={onDeleteClick}
+      >
+        Delete
+      </span>
       <EditableParagraph
-        headingClass="h1 p-3 mb-3"
+        headingClass="h3 p-3 mb-3"
         value={Homework.title}
         onEditSuccess={onEditTitleSuccess}
+        extraText={"Title: "}
+
       />
-      <EditableDateTime
-        headingClass="h4 p-3 mb-3"
-        value={Homework.deadline}
-        onEditSuccess={onEditDeadlineSuccess}
-      />
+      <div>
+    
+        <EditableDateTime
+          headingClass="h4 p-3 mb-3"
+          value={Homework.deadline}
+          onEditSuccess={onEditDeadlineSuccess}
+          extraText={"Deadline: "}
+        />
+      </div>
+
       <EditableParagraph
         headingClass="h4 p-3 mb-3"
         value={Homework.description}
         onEditSuccess={onEditDescriptionSuccess}
+        extraText={"Description: "}
+
       />
       <UploadDisplayer
         fkValue={Homework.id}
