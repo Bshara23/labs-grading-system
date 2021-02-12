@@ -130,6 +130,25 @@ export const deleteFile = async (id, table) => {
     console.error(error);
   }
 };
+
+export const addUser = async (id, fname, lname, password, type) => {
+  try {
+    return await axios
+      .post(API_URL + `/user`, {
+        id,
+        fname,
+        lname,
+        password,
+        type,
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const addCourse = async (title, description) => {
   try {
     return await axios
@@ -166,8 +185,6 @@ export const getAllUsersInCourse = async (courseId) => {
     console.error(error);
   }
 };
-
-
 
 export const getAllCourses = async () => {
   try {
@@ -261,6 +278,17 @@ export const getCourseHomeWorks = async (courseId) => {
   try {
     return await axios
       .get(API_URL + `/getCourseHomeWorks/${courseId}`)
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getUser = async (id) => {
+  try {
+    return await axios
+      .get(API_URL + `/user/${id}`)
       .then((res) => {
         return res;
       });

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import {useSelector, useDispatch} from 'react-redux';
@@ -19,13 +19,16 @@ import {
   getAllCourses,
   getAllUsers,
   getUserCourses,
+  addUser,
+  getUser,
 } from '../API/API';
-import {Button} from 'react-bootstrap';
+import {Button, Form} from 'react-bootstrap';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {Modal} from 'react-bootstrap';
+import TemporaryAlert from '../components/TemporaryAlert';
 
 const useStyles = makeStyles({
   root: {
@@ -44,12 +47,10 @@ export default function AdminPage() {
 
   const fetchData = () => {
     getAllUsers().then((res) => {
-      console.log('all users', res);
       setUsers(res.data);
     });
 
     getAllCourses().then((res) => {
-      console.log('all courses', res);
       setCourses(res.data);
     });
   };
@@ -130,6 +131,70 @@ export default function AdminPage() {
   };
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+
+  const alertRef = useRef();
+  const [alertType, setAlertType] = useState('warning');
+
+  const [alertWarnHeading, setAlertWarnHeading] = useState('Fields missing!');
+  const [alertWarnBody, setAlertWarnBody] = useState(
+    'Please fill all of the missing fields!'
+  );
+
+  const alertSuccessHeading = 'Success!';
+  const alertSuccessBody = 'User has been registered!';
+  const [userId, setUserId] = useState('');
+  const [userPass, setUserPass] = useState('');
+  const [userType, setUserType] = useState('');
+  const [userFname, setUserFname] = useState('');
+  const [userLname, setUserLname] = useState('');
+
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      if (
+        userId !== '' &&
+        userPass !== '' &&
+        userType !== '' &&
+        userFname !== '' &&
+        userLname !== ''
+      ) {
+        getUser(userId).then((res) => {
+          if (res.data.length !== 0) {
+            setAlertWarnHeading('User already exists!');
+            setAlertWarnBody(
+              'User already exists, please pick a different ID!'
+            );
+            setAlertType('warning');
+            alertRef.current.showAlert();
+          } else {
+            //insert user
+            addUser(userId, userFname, userLname, userPass, userType).then(
+              (res) => {
+                setAlertType('success');
+                alertRef.current.showAlert();
+                setUserId('');
+                setUserPass('');
+                setUserType('');
+                setUserFname('');
+                setUserLname('');
+                getAllUsers().then((res) => {
+                  setUsers(res.data);
+                });
+              }
+            );
+          }
+        });
+      } else {
+        setAlertWarnHeading('Fields missing!');
+        setAlertWarnBody('Please fill all of the missing fields!');
+        setAlertType('warning');
+        alertRef.current.showAlert();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -137,7 +202,11 @@ export default function AdminPage() {
           <Modal.Title>Delete {className}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you want to delete this {className}: <br/> {value == 1 ? `${selectedUser.fname} ${selectedUser.lname} - ${selectedUser.id}` : selectedCourse.title}?
+          Are you sure you want to delete this {className}: <br />{' '}
+          {value == 1
+            ? `${selectedUser.fname} ${selectedUser.lname} - ${selectedUser.id}`
+            : selectedCourse.title}
+          ?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -170,37 +239,117 @@ export default function AdminPage() {
           {value == 0 && (
             <h4 className="centerTitle mt-3">Click on course to delete it</h4>
           )}
-          <div className="submissions-box-teacher-view mt-5">
-            {value == 0 &&
-              courses &&
-              courses.length > 0 &&
-              courses.map((course, i) => {
-                return (
-                  <div key={i}>
-                    <CourseCell
-                      course={course}
-                      onClick={() => onCourseClick(course)}
-                    />
-                  </div>
-                );
-              })}
-          </div>
-
+          {value == 0 && (
+            <div className="submissions-box-teacher-view mt-5">
+              {value == 0 &&
+                courses &&
+                courses.length > 0 &&
+                courses.map((course, i) => {
+                  return (
+                    <div key={i}>
+                      <CourseCell
+                        course={course}
+                        onClick={() => onCourseClick(course)}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+          )}
           {value == 1 && (
             <h4 className="centerTitle mt-3">Click on user to delete it</h4>
           )}
-          <div className="submissions-box-teacher-view mt-5">
-            {value == 1 &&
-              users &&
-              users.length > 0 &&
-              users.map((user, i) => {
-                return (
-                  <div key={i}>
-                    <UserCell user={user} onClick={() => onUserClick(user)} />
-                  </div>
-                );
-              })}
-          </div>
+          {value == 1 && (
+            <div className="submissions-box-teacher-view mt-5">
+              {value == 1 &&
+                users &&
+                users.length > 0 &&
+                users.map((user, i) => {
+                  return (
+                    <div key={i}>
+                      <UserCell user={user} onClick={() => onUserClick(user)} />
+                    </div>
+                  );
+                })}
+            </div>
+          )}
+          {value == 2 && (
+            <h4 className="centerTitle mt-3">Register a student or a teacher</h4>
+          )}
+          {value == 2 && (
+            <div className="submissions-box-teacher-view mt-5">
+              <div className="w-100 flex-column justify-content-center align-items-center">
+                <TemporaryAlert
+                  body={
+                    alertType == 'success' ? alertSuccessBody : alertWarnBody
+                  }
+                  heading={
+                    alertType == 'success'
+                      ? alertSuccessHeading
+                      : alertWarnHeading
+                  }
+                  type={alertType}
+                  ref={alertRef}
+                />
+                <Form className="p-5" onSubmit={handleOnSubmit}>
+                  <Form.Group controlId="formBasicId">
+                    <Form.Label>ID</Form.Label>
+                    <Form.Control
+                      onChange={(e) => setUserId(e.target.value)}
+                      type="number"
+                      placeholder="Enter ID"
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="formBasicfname">
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control
+                      onChange={(e) => setUserFname(e.target.value)}
+                      type="text"
+                      placeholder="First Name"
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="formBasiclname">
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control
+                      onChange={(e) => setUserLname(e.target.value)}
+                      type="text"
+                      placeholder="Last Name"
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      onChange={(e) => setUserPass(e.target.value)}
+                      type="password"
+                      placeholder="Password"
+                    />
+                  </Form.Group>
+
+                  <Form.Check
+                    type="radio"
+                    label="Student"
+                    name="formHorizontalRadios"
+                    id="Student"
+                    onClick={(e) => setUserType(e.target.id)}
+                  />
+                  <Form.Check
+                    type="radio"
+                    label="Teacher"
+                    name="formHorizontalRadios"
+                    id="Teacher"
+                    onClick={(e) => setUserType(e.target.id)}
+                  />
+
+                  <Button className="mt-3" variant="primary" type="submit">
+                    Submit
+                  </Button>
+                </Form>
+              </div>
+            </div>
+          )}
         </Container>
       )}
     </>
