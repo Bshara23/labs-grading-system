@@ -20,6 +20,10 @@ A Lab and homeworks grading system, similar to moodle, that allows teachers to c
 - [Node.JS](https://nodejs.org/en/)
 - [PostgreSQL](https://www.postgresql.org/)
 
+### Set up the server
+instruction included:
+https://github.com/Bshara23/lab-grading-system-server
+
 #### Install packages
 run in terminal ```npm install``` or ```yarn```
 
