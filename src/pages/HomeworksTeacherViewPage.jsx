@@ -58,6 +58,7 @@ export default function HomeworkTeacherView() {
         homeworkTitle: Homework.title,
         student: res.data[0],
         submission: stuSub,
+        description: Homework.description,
       };
       dispatch(setCurrentSubmission(data));
       dispatch(setHideSubmissionDetails(false));

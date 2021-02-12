@@ -37,7 +37,7 @@ export default function EditableTimeDate({
             className="editIcon"
             onClick={onCheckClick}
             color="#0e7bf1"
-            size="2em"
+            size="25px"
           />{' '}
           <DateTimePicker
             onChange={handleDateChange}
@@ -45,16 +45,19 @@ export default function EditableTimeDate({
           />
         </div>
       ) : (
-        <p className={`d-flex pb-4 ${headingClass}`}>
-          {extraText}
+        <>
           <MdEdit
             className="editIcon"
-            size="1.3em"
+            size="25px"
             onClick={onEditClick}
             color="#0e7bf1"
           />{' '}
-          {toDateTimeString(deadline)}
-        </p>
+          <p className={`d-flex pb-4 ${headingClass}`}>
+            {extraText}
+
+            {toDateTimeString(deadline)}
+          </p>
+        </>
       )}
     </>
   );

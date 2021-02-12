@@ -86,6 +86,8 @@ export default function Course() {
         homeworkTitle: stuSub.title,
         student: res.data[0],
         submission: stuSub,
+        description: stuSub.description,
+
       };
       dispatch(setCurrentSubmission(data));
       dispatch(setHideSubmissionDetails(false));
@@ -208,7 +210,7 @@ export default function Course() {
                   id={HomeWork.id}
                   Title={HomeWork.title}
                   DeadLine={toDateTimeString(HomeWork.deadline)}
-                  Status={HomeWork.status}
+                  Status={HomeWork.grade > 0 ? "Graded" : "Not graded"}
                   onClick={() => onClickStudent(HomeWork)}
                 />
               </Row>

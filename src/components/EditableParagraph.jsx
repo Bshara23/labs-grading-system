@@ -35,21 +35,25 @@ export default function EditableParagraph({
             className="editIcon"
             onClick={onCheckClick}
             color="#0e7bf1"
-            size="2em"
+            size="25px"
           />{' '}
           <FormControl type="text" onChange={onChange} value={text} />
         </div>
       ) : (
-        <p className={`d-flex pb-4 ${headingClass}`}>
-          {extraText}
-          <MdEdit
+        <>
+        <MdEdit
             className="editIcon"
-            size="1.3em"
+            size="25px"
             onClick={onEditClick}
             color="#0e7bf1"
-          />{' '}
+          />
+          <p className={`d-flex pb-4 ${headingClass}`}>
+          {' '}          {extraText}
+
           {value}
         </p>
+        </>
+      
       )}
     </>
   );

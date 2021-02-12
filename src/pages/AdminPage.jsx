@@ -332,14 +332,14 @@ export default function AdminPage() {
                     type="radio"
                     label="Student"
                     name="formHorizontalRadios"
-                    id="Student"
+                    id="student"
                     onClick={(e) => setUserType(e.target.id)}
                   />
                   <Form.Check
                     type="radio"
                     label="Teacher"
                     name="formHorizontalRadios"
-                    id="Teacher"
+                    id="teacher"
                     onClick={(e) => setUserType(e.target.id)}
                   />
 
